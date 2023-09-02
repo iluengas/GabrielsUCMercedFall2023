@@ -11,6 +11,7 @@ def main():
     except: 
         print ("Python Summary file not found\n")
 
+    matchingWordCount = 0
     for word in res:
         if word.lower() == queryWord.lower():
             matchingWordCount = matchingWordCount + 1
