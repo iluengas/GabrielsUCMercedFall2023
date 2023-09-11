@@ -8,30 +8,28 @@
 
     <body>
 
-        <script src="processInput.js">
-        </script>
+        <script src="processInput.js"></script>
 
-        
 
             <div class="gridContainer">
-                <div class="calcDisplay" id = "calcDisplay"></div>
-                <button class="button" id="clearButton" onclick="clearDisp()">C</button>
-                <button class="button" onclick="append('7')">7</button>
-                <button class="button" onclick="append('8')">8</button>
-                <button class="button" onclick="append('9')">9</button>
-                <button class="button" id="commandButton"onclick="">/</button>
-                <button class="button" onclick="append('4')">4</button>
-                <button class="button" onclick="append('5')">5</button>
-                <button class="button" onclick="append('6')">6</button>
-                <button class="button" id="commandButton" onclick="">x</button>
-                <button class="button" onclick="append('1')">1</button>
-                <button class="button" onclick="append('2')">2</button>
-                <button class="button" onclick="append('3')">3</button>
-                <button class="button" id="commandButton" onclick="">-</button>
-                <button class="button" onclick="append('0')">0</button>
-                <button class="button" onclick="append('.')">.</button>
-                <button class="button" id="commandButton" onclick="equalOperation('=')">=</button>
-                <button class="button" id="commandButton" onclick="addOperation()">+</button>
+                <div class="calcDisplay" id = "calcDisplay">0</div>
+                <button class="button" id="clearButton" onclick="clearDisp();enableDecBtn()">C</button>
+                <button class="button" onclick="calcInput('7')">7</button>
+                <button class="button" onclick="calcInput('8')">8</button>
+                <button class="button" onclick="calcInput('9')">9</button>
+                <button class="button" id="commandButton"onclick="calcInput('/');enableDecBtn()">/</button>
+                <button class="button" onclick="calcInput('4')">4</button>
+                <button class="button" onclick="calcInput('5')">5</button>
+                <button class="button" onclick="calcInput('6')">6</button>
+                <button class="button" id="commandButton" onclick="calcInput('*');enableDecBtn()">x</button>
+                <button class="button" onclick="calcInput('1')">1</button>
+                <button class="button" onclick="calcInput('2')">2</button>
+                <button class="button" onclick="calcInput('3')">3</button>
+                <button class="button" id="commandButton" onclick="calcInput('-')">-</button>
+                <button class="button" onclick="calcInput('0')">0</button>
+                <button class="button" id ="decimalBtn" onclick="calcInput('.'); disableDecBtn()">.</button>
+                <button class="button" id="commandButton" onclick="calcInput('=');enableDecBtn()">=</button>
+                <button class="button" id="commandButton" onclick="calcInput('+');enableDecBtn()">+</button>
             </div>
 
 
