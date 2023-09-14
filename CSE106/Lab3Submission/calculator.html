@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator</title>
+
+        <link rel="stylesheet" href="calculator.css">
+    </head>
+
+    <body>
+
+        <script src="processInput.js"></script>
+
+
+            <div class="gridContainer">
+                <div class="calcDisplay" id = "calcDisplay">0</div>
+                <button class="button" id="clearButton" onclick="clearDisp();enableDecBtn()">C</button>
+                <button class="button" onclick="calcInput('7')">7</button>
+                <button class="button" onclick="calcInput('8')">8</button>
+                <button class="button" onclick="calcInput('9')">9</button>
+                <button class="button" id="commandButton"onclick="calcInput('/');enableDecBtn()">/</button>
+                <button class="button" onclick="calcInput('4')">4</button>
+                <button class="button" onclick="calcInput('5')">5</button>
+                <button class="button" onclick="calcInput('6')">6</button>
+                <button class="button" id="commandButton" onclick="calcInput('*');enableDecBtn()">x</button>
+                <button class="button" onclick="calcInput('1')">1</button>
+                <button class="button" onclick="calcInput('2')">2</button>
+                <button class="button" onclick="calcInput('3')">3</button>
+                <button class="button" id="commandButton" onclick="calcInput('-')">-</button>
+                <button class="button" onclick="calcInput('0')">0</button>
+                <button class="button" id ="decimalBtn" onclick="calcInput('.'); disableDecBtn()">.</button>
+                <button class="button" id="commandButton" onclick="calcInput('=');enableDecBtn()">=</button>
+                <button class="button" id="commandButton" onclick="calcInput('+');enableDecBtn()">+</button>
+            </div>
+
+
+    </body>
+</html>

@@ -1,0 +1,64 @@
+.gridContainer {
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto;
+    background-color: aquamarine;
+    padding: 30px;
+    row-gap: 20px;
+    column-gap: 20px;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+  }
+  
+  .button:hover {background-color: #3e8e41}
+  
+  .button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  .calcDisplay {
+    background-color: white;
+    border-radius: 5px;
+    font-size: 25px;
+    grid-column: 1/4;
+    text-align: right;
+    padding-right: 10px;
+    align-self: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  
+
+
+  }
+
+  #commandButton {
+    background-color: rgb(16, 94, 167);
+  }
+  
+  #commandButton:hover {
+    background-color: rgb(12, 58, 100);
+  }
+
+  #clearButton {
+    background-color: rgb(204, 128, 15);
+  }
+  
+  #clearButton:hover {
+    background-color: rgb(139, 88, 11);
+  }
