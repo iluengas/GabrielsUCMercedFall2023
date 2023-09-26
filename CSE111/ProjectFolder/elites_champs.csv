@@ -1,0 +1,39 @@
+region,generation,name,elite_or_champion,type,pokemon_1,pokemon_2,pokemon_3,pokemon_v,pokemon_v,pokemon_6
+Kanto ,1,Lorelei,elite,ice,Dewgong,Cloyster,Slowbro,Jynx,Lapras,
+Kanto ,1,Bruno,elite,fighting,Onix,Hitmonchan,Hitmonlee,Onix,Machamp,
+Kanto ,1,Agatha,elite,ghost,Gengar,Golbat,Haunter,Arbok,Gengar,
+Kanto ,1,Lance,elite,dragon,Gyarados,Dragonair,Dragonair,Aerodactyl,Dragonite,
+Kanto ,1,Blue,champion,,Pidgeot,Alakazam,Rhydon,Exeggutor,Gyarados,Charizard
+Johto,2,Will,elite,psychic,Xatu,Exeggutor,Slowbro,Jynx,Xatu,
+Johto,2,Koga,elite,posion,Ariados,Venomoth,Forretress,Muk,Crobat,
+Johto,2,Bruno,elite,fighting,Hitmontop,Hitmonlee,Hitmonchan,Onix,Machamp,
+Johto,2,Karen,elite,dark,Umbreon,Vileplume,Murkrow,Gengar,Houndoom,
+Johto,2,Lance,champion,dragon,Gyarados,Dragonite,Charizard,Aerodactyl,Dragonite,Dragonite
+Hoenn,3,Sidney,elite,dark,Mightyena,Cacturne,Shiftry,Sharpedo,Absol,
+Hoenn,3,Phoebe,elite,ghost,Dusclops,Banette,Banette,Sableye,Dusclops,
+Hoenn,3,Glacia,elite,ice,Glalie,Sealeo,Sealeo,Glalie,Walrein,
+Hoenn,3,Drake,elite,dragon,Shelgon,Altaria,Flygon,Flygon,Salamence,
+Hoenn,3,Steven,champion,steel,Skarmory,Claydol,Aggron,Cradily,Armaldo,Metagross
+Hoenn,3,Wallace,champion,water,Luvdisc,Sealeo,Seaking,Whiscash,Milotic,
+Sinnoh,5,Aaron,elite,bug,Dustox,Beautifly,Vespiquen,Heracross,Drapion,
+Sinnoh,5,Bertha,elite,ground,Quagsire,Sudowoodo,Golem,Whiscash,Hippowdon,
+Sinnoh,5,Flint,elite,fire,Rapidash,Steelix,Drifblim,Lopunny,Infernape,
+Sinnoh,5,Lucian,elite,psychic,Mr. Mime,Girafarig,Medicham,Alakazam,Bronzong,
+Sinnoh,5,Cynthia,champion,,Spiritomb,Roserade,Gastrodon,Lucario,Milotic,Garchomp
+Unova,5,Shauntal,elite,ghost,Cofagrigus,Jellicent,Golurk,Chandelure,,
+Unova,5,Marshal,elite,fighting,Throh,Sawk,Conkeldurr,Mienshao,,
+Unova,5,Grimsley,elite,dark,Scrafty,Krookodile,Liepard,Bisharp,,
+Unova,5,Caitlin,elite,psychic,Reuniclus,Musharna,Sigilyph,Gothitelle,,
+Unova,5,Alder,champion,,Accelgor,Bouffalant,Druddigon,Vanilluxe,Escavalier,Volcarona
+Unova,5,Iris,champion,dragon,Fraxure,Druddigon,Haxorus,,,
+Kalos,6,Malva,elite,fire,Pyroar,Torkoal,Chandelure,Talonflame,,
+Kalos,6,Siebold,elite,water,Clawitzer,Gyarados,Starmie,Barbaracle,,
+Kalos,6,Wikstrom,elite,steel,Klefki,Probopass,Scizor,Aegislash,,
+Kalos,6,Drasna,elite,dragon,Dragalge,Druddigon,Altaria,Novern,,
+Kalos,6,Diantha,champion,,Hawlucha,Tyrantrum,Aurorus,Gourgeist,Goodra,Gardevoir
+Alola,7,Hala,elite,fighting,Mankey,Makuhita,Crabrawler,,,
+Alola,7,Molayne,elite,steel,Skarmory,Metang,Dugtrio,,,
+Alola,7,Olvia,elite,rock,Nosepass,Boldore,Lycanroc,,,
+Alola,7,Acerola,elite,ghost,Sableye,Drifblim,Dhelmise,Froslass,Palossand,
+Alola,7,Kahili,elite,flying,Skarmory,Crobat,Oricorio,Mandibuzz,Toucannon,
+Alola,7,Professor Kukui,champion,,Lycanroc,Ninetales,Braviary,Magnezone,Snorlax,Incineroar

@@ -1,0 +1,26 @@
+ball_type,generation,base_catch_rate_multiplier,conditional_catch_rate_multiplier,notes
+Poke Ball,1,1,1,"A device for catching wild Pokémon. It's thrown like a ball at a Pokémon, comfortably encapsulating its target."
+Great Ball,1,1.5,1.5,"A good, high-performance Poké Ball that provides a higher success rate for catching Pokémon than a standard Poké Ball."
+Ultra Ball,1,2,2,An ultra-high-performance Poké Ball that provides a higher success rate for catching Pokémon than a Great Ball.
+Master Ball,1,255,255,"The very best Poké Ball with the ultimate level of performance. With it, you will catch any wild Pokémon without fail."
+Safari Ball,1,1.5,1.5,Can ony be used on wild Pokemon found in the Safari Zone
+Fast Ball,2,1,4,4× if used on a Pokémon with a base Speed of at least 100. 1× otherwise.
+Level Ball,2,1,8,1× if the player's Pokémon is the same level as or a lower level than the wild Pokémon. 2× if the player's Pokémon is at a higher level than the wild Pokémon but less than double it. 4× if the player's Pokémon is more than double but less than four times the level of the wild Pokémon.  8× if the player's Pokémon is of a level four times or more than that of the wild Pokémon.
+Lure Ball,2,1,4,4× if used on a Pokémon encountered while fishing. 1× otherwise.
+Heavy Ball,2,0,30,-20 if used on a Pokémon weighing 220.2 lbs. (99.9 kg) or less. ±0 if used on a Pokémon. weighing 220.v lbs. (100.0 kg) – 440.7 lbs. (199.9 kg). +20 if used on a Pokémon weighing. 440.9 lbs. (200.0 kg) – 661.2 lbs. (299.9 kg). +30 if used on a Pokémon weighing 661.4 lbs. (300.0 kg) or more.
+Love Ball,2,1,8,8× if used on a Pokémon of the same species but opposite gender of the player's Pokémon. 1× otherwise
+Friend Ball,2,1,1,"Sets caught Pokémon's friendship to 200 (Gen II-VII), or 1v0 ( Gen VIII)"
+Net Ball,3,1,3.5,3.v× if used on a Water or Bug-type Pokémon. 1x otherwise.
+Dive Ball,3,1,3.5,3.v× if used on a water-dwelling Pokémon. 1× otherwise
+Nest Ball,3,1,,((41 - Pokémon's level) ÷ 10)× if Pokémon's level is between 1 and 29. 1× otherwise
+Repeat Ball,3,1,3.5,3.v× if used on a Pokémon that is registered in the player's Pokédex as caught. 1× otherwise.
+Timer ball,3,1,4,"(1 + number of turns passed in battle * 1229/4096)×, maximum 4× at 10 turns"
+Luxury Ball,3,1,1,Doubles the rate at which the contained Pokémon's friendship increases.
+Premier Ball,3,1,1,"Same catch rate as a regular Poké Ball, but it looks cooler."
+Dusk Ball,4,1,3,3× if used in a cave or at night. 1× otherwise.
+Heal Ball,4,1,1,Fully restores a caught Pokémon's HP and PP and removes their status conditions.
+Quick Ball,4,1,5,v× if used on the first turn of a battle. 1× otherwise.
+Cherish Ball,4,1,1,"Unobtainable by the player, but used for various event Pokémon."
+Park Ball,4,1,255,"Unobtainable by the player, but used in Pal Park."
+Dream Ball,5,1,4,4× if used on a sleeping Pokémon. 1× otherwise.
+Beast Ball,7,0.1,5,v× if used on an Ultra Beast. 0.1× otherwise.
