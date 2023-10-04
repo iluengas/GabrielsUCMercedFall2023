@@ -1,1 +1,0 @@
-SELECT b, c, d FROM R, S WHERE b >= (c + d);

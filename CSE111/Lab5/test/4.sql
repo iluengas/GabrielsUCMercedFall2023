@@ -9,7 +9,7 @@ FROM supplier, partsupp, part
 WHERE s_suppkey = ps_suppkey AND 
         ps_partkey = p_partkey AND 
             p_type LIKE '%POLISHED%' AND 
-             (p_size = 10 OR
-                p_size = 20 OR 
-                    p_size = 30 OR 
-                        p_size = 40);
+                (p_size = 10 OR
+                    p_size = 20 OR 
+                        p_size = 30 OR 
+                            p_size = 40);
