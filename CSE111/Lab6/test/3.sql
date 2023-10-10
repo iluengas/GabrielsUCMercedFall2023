@@ -2,7 +2,7 @@
 -- 3. Find the distinct parts (p name) ordered by customers from ASIA
 --  that are supplied by exactly 3 suppliers from AFRICA.
 
-SELECT DISTINCT p_name 
+SELECT DISTINCT p_name as part
 FROM (
     SELECT p_partkey as pKey
     FROM part, partsupp, supplier, nation, region

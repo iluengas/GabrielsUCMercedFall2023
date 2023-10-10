@@ -2,8 +2,6 @@
 -- 10. Find the nation(s) having customers
 --  that spend the largest amount of money(o totalprice).
 
-SELECT MAX(o_totalprice) 
-FROM orders;
 
 SELECT n_name as country 
 FROM 
