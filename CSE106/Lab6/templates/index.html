@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/index.css">
+    </head>
+    <body>
+        <script src="/static/index.js"></script>
+
+        <div class="buttons" id="buttons">
+            <div class=".grid-buttons">
+                <h3>Get All grades</h3>
+                <button type="button" onclick="fetchAllGrades()">Get All Grades</button>
+            </div>
+
+            <div class=".grid-buttons">
+                <h3>Find Student Grade</h3>
+                <button type="reset" onclick="fetchStudentGrade(document.getElementById('studentQuery').value); document.getElementById('studentQuery').value = ''"> Search for Student Grade </button>
+                <br>
+                <input type="text" id="studentQuery" placeholder="Enter Name:">
+            </div>
+
+            <div class=".grid-buttons">
+                <h3>Create Student and Grade</h3>
+                <button type="button" onclick="fetchCreateGrade(document.getElementById('newStudentName').value, document.getElementById('newStudentGrade').value); document.getElementById('newStudentName').value = ''; document.getElementById('newStudentGrade').value = ''"> Create New Grade </button>
+                <br>
+                <input type="text" id="newStudentName" placeholder="Enter Name:">
+                <br>
+                <input type="text" id="newStudentGrade" placeholder="Enter Grade:">
+            </div>
+
+
+            <div class=".grid-buttons">
+                <h3>Delete Student</h3>
+                <button type="button" onclick="fetchDeleteStudentGrade(document.getElementById('studentDeleteQuery').value); document.getElementById('studentDeleteQuery').value = ''"> Delete Grade </button>
+                <br>
+                <input type="text" id="studentDeleteQuery" placeholder="Enter Name:">
+            </div>
+
+            <div class=".grid-buttons">
+                <h3>Edit Student Grade</h3>
+                <button type="button" onclick="fetchEditGrade(document.getElementById('studentEditQuery').value, document.getElementById('editedGrade').value); document.getElementById('studentEditQuery').value = ''; document.getElementById('editedGrade').value = ''"> Edit Grade Grade </button> 
+                <br>
+                <input type="text" id="studentEditQuery" placeholder="Enter Name:">
+                <br>
+                <input type="text" id="editedGrade" placeholder="Enter New Grade:">
+   </div>
+
+        </div>
+        <br>
+
+        <div id="displayField">
+            <table class="displayTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id = "grades">
+
+                </tbody>
+            </table>
+
+        </div>
+    </body>
+</html>
