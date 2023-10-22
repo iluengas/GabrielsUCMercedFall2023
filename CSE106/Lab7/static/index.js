@@ -59,7 +59,7 @@ async function fetchDeleteStudentGrade(name) {
         alert("Successfully Deleted Grade");
         
     } else {
-        alert("HTTP-Error: " + response.status);
+        alert("HTTP-Error: " + response.status + "\n Student Not Found");
     }
 
     displayData(response);
@@ -109,6 +109,14 @@ async function fetchEditGrade(name, newGrade) {
         },
         body: JSON.stringify(data),
     });
+
+    if (response.ok) { // if HTTP-status is 200-299
+        console.log(response);
+        alert("Successfully Edited Grade");
+        
+    } else {
+        alert("HTTP-Error: " + response.status + "\n Student Not Found");
+    }
 
     displayData(response);
 }
