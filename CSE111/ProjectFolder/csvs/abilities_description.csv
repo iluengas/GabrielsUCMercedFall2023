@@ -1,4 +1,4 @@
-name,description,generation
+a_name,a_description,a_generation
 Stench,"By releasing a stench when attacking, the Pokémon may cause the target to flinch.",3
 Drizzle,The Pokémon makes it rain when it enters a battle.,3
 Speed Boost,The Pokémon's Speed stat is boosted every turn.,3
@@ -108,7 +108,7 @@ Aftermath,Damages the attacker if it knocks out the Pokémon with a move that ma
 Anticipation,The Pokémon can sense an opposing Pokémon's dangerous moves.,4
 Forewarn,"When it enters a battle, the Pokémon can tell one of the moves an opposing Pokémon has.",4
 Unaware,"When attacking, the Pokémon ignores the target's stat changes.",4
-Tinted Lens,"The Pokémon can use ""not very effective"" moves to deal regular damage.",4
+Tinted Lens,The Pokémon can use not very effective moves to deal regular damage.,4
 Filter,Reduces the power of supereffective attacks that hit the Pokémon.,4
 Slow Start,"For five turns, the Pokémon's Attack and Speed stats are halved.",4
 Scrappy,The Pokémon can hit Ghost-type Pokémon with Normal- and Fighting-type moves. It is also unaffected by Intimidate.,4
@@ -186,7 +186,7 @@ Aerilate,Normal-type moves become Flying-type moves. The power of those moves is
 Parental Bond,The parent and child attack one after the other.,6
 Dark Aura,Powers up the Dark-type moves of all Pokémon on the field.,6
 Fairy Aura,Powers up the Fairy-type moves of all Pokémon on the field.,6
-Aura Break,"The effects of ""Aura"" Abilities are reversed to lower the power of affected moves.",6
+Aura Break,The effects of Aura Abilities are reversed to lower the power of affected moves.,6
 Primordial Sea,The Pokémon changes the weather to nullify Fire-type attacks.,6
 Desolate Land,The Pokémon changes the weather to nullify Water-type attacks.,6
 Delta Stream,The Pokémon changes the weather so that no moves are supereffective against the Flying type.,6

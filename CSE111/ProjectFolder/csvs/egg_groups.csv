@@ -1,4 +1,4 @@
-name,egg_group_1,egg_group_2
+e_pokemon,e_egg_group_1,e_egg_group_2
 Bulbasaur,Monster,Grass
 Ivysaur,Monster,Grass
 Venusaur,Monster,Grass
@@ -27,10 +27,10 @@ Pikachu,Field,Fairy
 Raichu,Field,Fairy
 Sandshrew,Field,
 Sandslash,Field,
-Nidoran♀,Monster,Field
+Nidoran,Monster,Field
 Nidorina,No Eggs Discovered,
 Nidoqueen,No Eggs Discovered,
-Nidoran♂,Monster,Field
+Nidoran,Monster,Field
 Nidorino,Monster,Field
 Nidoking,Monster,Field
 Clefairy,Fairy,
