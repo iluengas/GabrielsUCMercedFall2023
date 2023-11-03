@@ -1,0 +1,11 @@
+--EFFECTIVE AGAINST(SINGLE TYPE POKEMON): Single type advantage
+
+    SELECT DISTINCT p2.p_name
+    FROM pokemon p1, typeChart, pokemon p2
+    WHERE p1.p_name == 'Charmander' AND
+                p1.p_type1 = tc_type AND
+                tc_effectiveness > 1 AND
+                    (tc_type_against = p2.p_type1 OR
+                        tc_type_against = p2.p_type2);
+
+
