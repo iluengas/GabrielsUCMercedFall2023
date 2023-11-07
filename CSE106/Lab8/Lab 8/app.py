@@ -75,17 +75,29 @@ def renderIndex():
         #Display html file (**All html's go in templates -> CSS & JS go in static)
         return render_template("login.html")
 
-@app.route('/success/<name>/<password>')
+
+@app.route('/mCS', methods = ['GET', 'POST'])
 @login_required
-def success(name, password):
-    _content = 'Welcome ' + name + '. Password: ' + password
+def run():
+        _id = Users.get_id(current_user)
 
-    _id = Users.get_id(current_user)
+        print(_id)
 
-    print(Gradebook.query.filter_by(id = _id))
+        x = Gradebook.query.filter_by(id = _id).all()
 
+        returnDict = {}
 
-    return render_template("index.html", content = _content)
+        for index, element in enumerate(x):
+            returnDict[index] = element
+
+        print(returnDict)
+
+        return (jsonify(returnDict))
+
+@app.route('/success/<name>')
+@login_required
+def success(name):
+    return render_template("index.html", content = name)
 
 @app.route('/test', methods = ['GET', 'POST'])
 @login_required
@@ -96,7 +108,7 @@ def test():
     #idNum = user.username
 
     print (user)
-    return ' '
+    return jsonify(user)
 
 @login_manager.user_loader
 def load_user(id):
@@ -125,7 +137,7 @@ def login():
         return render_template("login.html", error = error)
     else:
         login_user(user)
-        return redirect(url_for('success',name = _username, password = _password))
+        return redirect(url_for('success',name = _username))
 
 @app.route('/signUp')
 def signUp():
