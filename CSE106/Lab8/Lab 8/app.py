@@ -32,11 +32,33 @@ class Users(UserMixin, db.Model):
             return bcrypt.check_password_hash(self.password, password)
             #return self.password == password
         
-        def __repr__(self):
-            return '<User %r>' % self.username
-        
         def get_id(self):
            return (self.id)
+        
+        def __repr__(self):
+            return '<User %r>' % self.username
+
+        
+class Gradebook(UserMixin, db.Model):
+    row_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    id = db.Column(db.Integer, nullable=False)
+    studentName = db.Column(db.String, nullable=False)
+    className = db.Column(db.String, db.ForeignKey('classes.className'), nullable=False)
+    Grade = db.Column(db.Integer, nullable=False)
+    class_name = db.relationship('Classes', backref=db.backref('students', lazy=True))
+    def __repr__(self):
+        return '<Student %r>' % self.studentName
+
+class Classes(UserMixin, db.Model):
+    className = db.Column(db.String, primary_key=True, nullable=False)
+    prof = db.Column(db.String, nullable=False)
+    timeInfo = db.Column(db.String, nullable=False)
+    capacity = db.Column(db.Integer, nullable=False)
+    def __repr__(self):
+        return '<Category %r>' % self.name
+
+
+
 
 
 def showGradebookSelection(queryArr):
@@ -54,9 +76,27 @@ def renderIndex():
         return render_template("login.html")
 
 @app.route('/success/<name>/<password>')
+@login_required
 def success(name, password):
     _content = 'Welcome ' + name + '. Password: ' + password
+
+    _id = Users.get_id(current_user)
+
+    print(Gradebook.query.filter_by(id = _id))
+
+
     return render_template("index.html", content = _content)
+
+@app.route('/test', methods = ['GET', 'POST'])
+@login_required
+def test():
+
+    user = Users.get_id(current_user)
+
+    #idNum = user.username
+
+    print (user)
+    return ' '
 
 @login_manager.user_loader
 def load_user(id):
@@ -68,7 +108,6 @@ def load_user(id):
 def logout():
     logout_user()
     return render_template("login.html")
-
 
 @app.route('/login',methods = ['POST'])
 def login():
