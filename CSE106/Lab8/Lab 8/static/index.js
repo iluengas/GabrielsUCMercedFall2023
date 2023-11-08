@@ -12,6 +12,21 @@ async function fetchAllClasses_Student() {
 }
 
 
+async function fetchCourseList(){
+    let response = await fetch('http://127.0.0.1:5000/courseList', { method: 'get', mode: 'cors' });
+
+    if (response.ok) { // if HTTP-status is 200-299
+        console.log(response);
+        
+    } else {
+        alert("HTTP-Error: " + response.status);
+    }
+
+    console.log(response)
+
+
+}
+
 async function fetchAllGrades() {
 
     //Await fetch response (make sure url matches local host and route we want to use in backend), define method 

@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request, jsonify, flash
 from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 import json
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user, UserMixin, login_manager
 from flask_bcrypt import Bcrypt 
@@ -36,7 +37,7 @@ class Users(UserMixin, db.Model):
            return (self.id)
         
         def __repr__(self):
-            return '<User %r>' % self.username
+            return self.username
 
         
 class Gradebook(UserMixin, db.Model):
@@ -82,30 +83,109 @@ def renderIndex():
 def run():
         _id = Users.get_id(current_user)
 
+        print(current_user)
+
 
         print(_id )
 
         x = Gradebook.query.filter_by(id = _id).all()
 
-                
-        # returnDict = {}
-
-
-        # y = json.loads(x)
-
-        # print(y)
-        
-
-        # for case in x:
-        #     #print(vars(case))
-        #     returnDict.append(vars(case))
-
         return render_template('viewClasses.html', rows = x)
 
+
+@app.route('/addDrop')
+@login_required
+def addDrop():
+
+    _id = Users.get_id(current_user)
+
+    print(current_user)
+
+    _studentClasses = Gradebook.query.filter_by(id = _id).all()
+
+    _allClasses = Classes.query.all()
+
+    return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses)
+
+@app.route('/drop/<classToDrop>')
+@login_required
+def dropClass(classToDrop):
+
+    _id = Users.get_id(current_user)
+
+    _studentClasses = Gradebook.query.filter_by(id = _id).all()
+
+    hasClass = False
+    rowID = None
+
+    for _class in _studentClasses:
+         if _class.className == classToDrop:
+              hasClass = True
+              rowID = _class.row_id
+              break
+         
+    print ("RowID"+str(rowID))
+
+    if hasClass:
+         with app.app_context():
+
+            entryToDelete = Gradebook.query.filter_by(row_id = rowID).first()
+
+            if (entryToDelete):
+                db.session.delete(entryToDelete)
+                db.session.commit()
+                return redirect("/success/"+current_user)
+            else:
+                return redirect("/success/"+current_user)
+            
+
+@app.route('/add/<classToAdd>')
+@login_required
+def addClass(classToAdd):
+
+    _id = Users.get_id(current_user)
+
+    _studentClasses = Gradebook.query.filter_by(id = _id).all()
+
+    hasClass = False
+
+    for _class in _studentClasses:
+         if _class.className == classToAdd:
+              hasClass = True
+              break
+         
+
+    if not hasClass:
+         with app.app_context():
+
+            maxRowID = db.session.query(func.max(Gradebook.row_id)).first()
+
+            entryToAdd = Gradebook(row_id = (maxRowID[0]+1), id = int(_id), studentName = str(current_user), className = str(classToAdd), Grade = 0)
+
+            if (entryToAdd):
+                
+                #Create new Gradebook object with value arguments
+                #Add new object to db
+                db.session.add(entryToAdd)
+
+                #Commit changes to db
+                db.session.commit()
+                return redirect("/success/"+str(current_user))
+            else:
+                return redirect("/success/"+str(current_user))         
+
+  
 @app.route('/success/<name>')
 @login_required
 def success(name):
-    return render_template("index.html", content = name)
+
+    _id = Users.get_id(current_user)
+
+    x = Gradebook.query.filter_by(id = _id).all()
+
+    print(current_user)
+
+    return render_template("index.html", content = name, rows=x)
 
 @app.route('/test', methods = ['GET', 'POST'])
 @login_required
@@ -162,8 +242,10 @@ def createAccount():
         with app.app_context():
 
             count = db.session.query(Users).count()
+
+            maxID = db.session.query(func.max(Gradebook.row_id)).first()
             #Create new Gradebook object with value arguments
-            newStudent = Users(id = (count+1), username = newName, password=newPassword)
+            newStudent = Users(id = (maxID[0]+1), username = newName, password=newPassword)
 
             #Add new object to db
             db.session.add(newStudent)
