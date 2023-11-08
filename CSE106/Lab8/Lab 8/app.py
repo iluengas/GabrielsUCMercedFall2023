@@ -45,9 +45,10 @@ class Gradebook(UserMixin, db.Model):
     studentName = db.Column(db.String, nullable=False)
     className = db.Column(db.String, db.ForeignKey('classes.className'), nullable=False)
     Grade = db.Column(db.Integer, nullable=False)
-    class_name = db.relationship('Classes', backref=db.backref('students', lazy=True))
+    class_name = db.relationship('Classes', backref=db.backref('studentName', lazy=True))
     def __repr__(self):
-        return '<Student %r>' % self.studentName
+        #text = "{'studentName':{student}, 'className':{className}}".format(student=self.studentName, className = self.className)
+        return f'{self.studentName}'
 
 class Classes(UserMixin, db.Model):
     className = db.Column(db.String, primary_key=True, nullable=False)
@@ -76,23 +77,30 @@ def renderIndex():
         return render_template("login.html")
 
 
-@app.route('/mCS', methods = ['GET', 'POST'])
+@app.route('/mCS', methods = ['GET'])
 @login_required
 def run():
         _id = Users.get_id(current_user)
 
-        print(_id)
+
+        print(_id )
 
         x = Gradebook.query.filter_by(id = _id).all()
 
-        returnDict = {}
+                
+        # returnDict = {}
 
-        for index, element in enumerate(x):
-            returnDict[index] = element
 
-        print(returnDict)
+        # y = json.loads(x)
 
-        return (jsonify(returnDict))
+        # print(y)
+        
+
+        # for case in x:
+        #     #print(vars(case))
+        #     returnDict.append(vars(case))
+
+        return render_template('viewClasses.html', rows = x)
 
 @app.route('/success/<name>')
 @login_required
