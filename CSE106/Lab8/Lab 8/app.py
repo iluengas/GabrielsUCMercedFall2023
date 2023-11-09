@@ -93,7 +93,7 @@ def run():
         return render_template('viewClasses.html', rows = x)
 
 
-@app.route('/addDrop')
+@app.route('/addDrop', methods=['GET', 'POST'])
 @login_required
 def addDrop():
 
@@ -209,8 +209,16 @@ def logout():
     logout_user()
     return render_template("login.html")
 
-@app.route('/login',methods = ['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+
+    if request.method == 'POST':
+        # Handle login form submission
+        # Check username and password, and log the user in
+        if current_user.is_authenticated:
+        # After successful login, redirect to the originally requested URL
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('index'))
 
     error = None
     _username = request.form['name']
