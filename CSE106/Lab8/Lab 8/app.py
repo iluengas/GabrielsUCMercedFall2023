@@ -134,9 +134,9 @@ def dropClass(classToDrop):
             if (entryToDelete):
                 db.session.delete(entryToDelete)
                 db.session.commit()
-                return redirect("/success/"+current_user)
+                return redirect("/success/"+str(current_user))
             else:
-                return redirect("/success/"+current_user)
+                return redirect("/success/"+str(current_user))
             
 
 @app.route('/add/<classToAdd>')

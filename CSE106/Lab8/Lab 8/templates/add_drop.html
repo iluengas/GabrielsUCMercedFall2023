@@ -8,6 +8,7 @@
          <script src="/static/index.js"></script>
 
          <!-- <button type="button" onclick="fetchAllClasses_Student()">See All My Classes</button><br> -->
+         <a href = "/addDrop"><button>Add/Drop</button></a>
 
 
          <h3>Available Classes: </h3><br>
@@ -30,7 +31,7 @@
                     {%  if ns.found %}
                         <td><a href="/drop/{{ row.className }}">Drop</a></td>
                     {% else %}
-                        <td><a href="/signUp/"+{{ row.className}}>Add</a></td>
+                        <td><a href="/add/{{ row.className }}">Add</a></td>
                     {% endif %}
 
                 
