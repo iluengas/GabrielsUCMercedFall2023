@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request, jsonify, flash
 from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func,  select, and_
 import json
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user, UserMixin, login_manager
 from flask_bcrypt import Bcrypt 
@@ -48,7 +48,6 @@ class Gradebook(UserMixin, db.Model):
     Grade = db.Column(db.Integer, nullable=False)
     class_name = db.relationship('Classes', backref=db.backref('studentName', lazy=True))
     def __repr__(self):
-        #text = "{'studentName':{student}, 'className':{className}}".format(student=self.studentName, className = self.className)
         return f'{self.studentName}'
 
 class Classes(UserMixin, db.Model):
@@ -57,41 +56,16 @@ class Classes(UserMixin, db.Model):
     timeInfo = db.Column(db.String, nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     def __repr__(self):
-        return '<Category %r>' % self.name
+        return '<Classes %r>' % self.className
 
-
-
-
-
-def showGradebookSelection(queryArr):
-        returnDict = {}
-
-        for student in queryArr: 
-                returnDict[getattr(student, 'name')] = getattr(student, 'grade')
-
-        return (returnDict)
-
+@login_manager.user_loader
+def load_user(id):
+    return Users.query.get(int(id))
 
 @app.route('/')
 def renderIndex():
         #Display html file (**All html's go in templates -> CSS & JS go in static)
         return render_template("login.html")
-
-
-@app.route('/mCS', methods = ['GET'])
-@login_required
-def run():
-        _id = Users.get_id(current_user)
-
-        print(current_user)
-
-
-        print(_id )
-
-        x = Gradebook.query.filter_by(id = _id).all()
-
-        return render_template('viewClasses.html', rows = x)
-
 
 @app.route('/addDrop', methods=['GET', 'POST'])
 @login_required
@@ -99,13 +73,19 @@ def addDrop():
 
     _id = Users.get_id(current_user)
 
-    print(current_user)
-
     _studentClasses = Gradebook.query.filter_by(id = _id).all()
 
     _allClasses = Classes.query.all()
 
-    return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses)
+
+    classStudentCounts = db.session.query(Gradebook.className, 
+                      func.count(Gradebook.id).label('studentCount') 
+                      ).group_by(Gradebook.className) 
+    
+    # for row in query: 
+    #     print(f"Customer {row.className}: total spent = {row.Students}") 
+
+    return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, studentCounts = classStudentCounts)
 
 @app.route('/drop/<classToDrop>')
 @login_required
@@ -154,8 +134,19 @@ def addClass(classToAdd):
               hasClass = True
               break
          
+    classFull = True
 
-    if not hasClass:
+    _class = Classes.query.filter_by(className = classToAdd).first()
+
+    studentsInClass =  db.session.query(Gradebook.id).filter(Gradebook.className == classToAdd).count()
+
+    if (studentsInClass < _class.capacity):
+         classFull = False
+
+    _allClasses = Classes.query.all()
+         
+
+    if (not hasClass) and (not classFull) :
          with app.app_context():
 
             maxRowID = db.session.query(func.max(Gradebook.row_id)).first()
@@ -172,35 +163,88 @@ def addClass(classToAdd):
                 db.session.commit()
                 return redirect("/success/"+str(current_user))
             else:
-                return redirect("/success/"+str(current_user))         
+                return redirect("/success/"+str(current_user))
+    elif hasClass:
+        _error = "Student Already Is Enrolled In Class"
+        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error)
+    elif classFull:
+        _error = "Class is Full - Cannot Enroll at this Time"
+        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error)
+    else:
+        _error = "Unkown command"
+        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error) 
 
-  
+
+
+
+@app.route('/viewStudents/<_class>')
+@login_required
+def viewStudents(_class):
+
+        studentsInClass = db.session.query(Gradebook).filter(Gradebook.className == str(_class)).all()
+
+        return render_template("viewStudents.html", students = studentsInClass, className = _class, instructor = current_user)
+
+@app.route('/changeGrade/<_studentName>/<_className>', methods = ['GET', 'POST'])
+@login_required
+def changeGrade(_studentName, _className):
+        
+                
+        taughtClasses = db.session.query(Classes).filter(Classes.prof == str(current_user)).all()
+
+        for _class in taughtClasses:
+             if _class.className == _className:
+                    student = db.session.query(Gradebook).filter(and_(Gradebook.className == str(_class.className),Gradebook.studentName == str(_studentName) )).first()
+                  #Execute Grade change
+                    print(str(student) + str(student.Grade))
+        
+                    return render_template("changeGrade.html", student = _studentName, className = student.className, currentGrade = student.Grade)
+        else:
+            return ''
+               
+@app.route('/changeGrade/confirm/<studentName>/<_className>', methods = ['GET', 'POST'])
+@login_required
+def changeGradeConfirm(studentName, _className):
+         
+    if request.method == 'POST':
+
+        taughtClasses = db.session.query(Classes).filter(Classes.prof == str(current_user)).all()
+
+        if taughtClasses: 
+            newGrade = request.form['newGrade']
+
+            with app.app_context():
+
+                #Add new object to db
+                student = db.session.query(Gradebook).filter(and_(Gradebook.className == str(_className),Gradebook.studentName == str(studentName) )).first()
+
+                #Assign the newGrade value from request data to the student object's grade attribute 
+                student.Grade = newGrade
+
+                #Commit Changes
+                db.session.commit()   
+    return render_template("changeGrade.html", student = studentName, className = _className, currentGrade = newGrade)
+
+
+
 @app.route('/success/<name>')
 @login_required
 def success(name):
 
-    _id = Users.get_id(current_user)
+        taughtClasses = db.session.query(Classes).filter(Classes.prof == str(current_user)).all()
 
-    x = Gradebook.query.filter_by(id = _id).all()
+        if taughtClasses:
+            return render_template("instructorView.html", content = name, rows=taughtClasses)
+        else:
+            _id = Users.get_id(current_user)
 
-    print(current_user)
+            x = Gradebook.query.filter_by(id = _id).all()
 
-    return render_template("index.html", content = name, rows=x)
+            print(current_user)
 
-@app.route('/test', methods = ['GET', 'POST'])
-@login_required
-def test():
+            return render_template("studentView.html", content = name, rows=x)
 
-    user = Users.get_id(current_user)
 
-    #idNum = user.username
-
-    print (user)
-    return jsonify(user)
-
-@login_manager.user_loader
-def load_user(id):
-    return Users.query.get(int(id))
 
 
 @app.route('/logout', methods = ['GET', 'POST'])
@@ -211,14 +255,6 @@ def logout():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
-    if request.method == 'POST':
-        # Handle login form submission
-        # Check username and password, and log the user in
-        if current_user.is_authenticated:
-        # After successful login, redirect to the originally requested URL
-            next_page = request.args.get('next')
-            return redirect(next_page or url_for('index'))
 
     error = None
     _username = request.form['name']
@@ -249,9 +285,8 @@ def createAccount():
 
         with app.app_context():
 
-            count = db.session.query(Users).count()
 
-            maxID = db.session.query(func.max(Gradebook.row_id)).first()
+            maxID = db.session.query(func.max(Users.id)).first()
             #Create new Gradebook object with value arguments
             newStudent = Users(id = (maxID[0]+1), username = newName, password=newPassword)
 
