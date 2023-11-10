@@ -26,7 +26,11 @@
             <tr>
                <td> {{ row.className }} </td>
                <td> {{ row.timeInfo }} </td>
-               <td> {{ row.capacity }} </td>
+               {%  for class in studentCounts %}
+                    {%  if row.className == class.className %}
+                        <td> {{ class.studentCount }}/{{ row.capacity }} </td>
+                    {% endif %} 
+                {% endfor %}
                <td><a href="/viewStudents/{{ row.className }}">View Class</a></td>
 
             </tr>

@@ -81,9 +81,7 @@ def addDrop():
     classStudentCounts = db.session.query(Gradebook.className, 
                       func.count(Gradebook.id).label('studentCount') 
                       ).group_by(Gradebook.className) 
-    
-    # for row in query: 
-    #     print(f"Customer {row.className}: total spent = {row.Students}") 
+
 
     return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, studentCounts = classStudentCounts)
 
@@ -144,6 +142,10 @@ def addClass(classToAdd):
          classFull = False
 
     _allClasses = Classes.query.all()
+
+    classStudentCounts = db.session.query(Gradebook.className, 
+                      func.count(Gradebook.id).label('studentCount') 
+                      ).group_by(Gradebook.className)
          
 
     if (not hasClass) and (not classFull) :
@@ -166,13 +168,13 @@ def addClass(classToAdd):
                 return redirect("/success/"+str(current_user))
     elif hasClass:
         _error = "Student Already Is Enrolled In Class"
-        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error)
+        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error, studentCounts = classStudentCounts)
     elif classFull:
         _error = "Class is Full - Cannot Enroll at this Time"
-        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error)
+        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error, studentCounts = classStudentCounts)
     else:
         _error = "Unkown command"
-        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error) 
+        return render_template("add_drop.html", studentName = current_user, classes=_allClasses, studentClasses=_studentClasses, error = _error, studentCounts = classStudentCounts) 
 
 
 
@@ -234,7 +236,10 @@ def success(name):
         taughtClasses = db.session.query(Classes).filter(Classes.prof == str(current_user)).all()
 
         if taughtClasses:
-            return render_template("instructorView.html", content = name, rows=taughtClasses)
+            classStudentCounts = db.session.query(Gradebook.className, 
+                                    func.count(Gradebook.id).label('studentCount') 
+                                        ).group_by(Gradebook.className)
+            return render_template("instructorView.html", content = name, rows=taughtClasses, studentCounts = classStudentCounts)
         else:
             _id = Users.get_id(current_user)
 

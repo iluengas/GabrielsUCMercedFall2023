@@ -34,7 +34,11 @@
                <td> {{ row.className }} </td>
                <td> {{ row.prof }} </td>
                <td> {{ row.timeInfo }} </td>
-               <td> {{ row.capacity }} </td>
+               {%  for class in studentCounts %}
+                    {%  if row.className == class.className %}
+                        <td> {{ class.studentCount }}/{{ row.capacity }} </td>
+                    {% endif %} 
+                {% endfor %}
 
                {% set ns = namespace(found=false) %} 
                     {%  for class in studentClasses %}
@@ -49,19 +53,10 @@
                         <td><a href="/add/{{ row.className }}">Add</a></td>
                     {% endif %}
 
-                
 
             </tr>
-        
             {% endfor %}
-
-            {% for row in studentCounts %}
         
-            <tr>
-               <td> {{ row.className }} </td>
-               <td> {{ row.studentCount }} </td>
-
-            {% endfor %}
          </table> <br>
 
 
