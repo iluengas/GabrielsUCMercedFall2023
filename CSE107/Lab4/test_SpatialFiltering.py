@@ -16,6 +16,7 @@ simple_image_pixels[:,50:99] = 255
 # Display the simple image.
 simple_image = Image.fromarray(np.uint8(simple_image_pixels))
 simple_image.show()
+# simple_image.save( 'simple_image.tif' )
 
 # Create an "impulse" filter which has all zeros except for the middle entry.
 impulse_filter_pixels = np.zeros(shape=(3, 3))
