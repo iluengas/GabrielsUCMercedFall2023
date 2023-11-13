@@ -1,0 +1,301 @@
+w_warehousekey             w_name                       w_capacity                     w_suppkey                     s_nationkey          
+             1 Supplier#000000001___PERU                 6417                              1                             17
+             2 Supplier#000000001___PERU                 6417                              1                             17
+             3 Supplier#000000001___PERU                 6417                              1                             17
+             4 Supplier#000000002___ETHIOPIA                 6342                              2                              5
+             5 Supplier#000000002___ETHIOPIA                 6342                              2                              5
+             6 Supplier#000000002___ETHIOPIA                 6342                              2                              5
+             7 Supplier#000000003___ARGENTINA                 6315                              3                              1
+             8 Supplier#000000003___ARGENTINA                 6315                              3                              1
+             9 Supplier#000000003___ARGENTINA                 6315                              3                              1
+            10 Supplier#000000004___MOROCCO                 6750                              4                             15
+            11 Supplier#000000004___MOROCCO                 6750                              4                             15
+            12 Supplier#000000004___MOROCCO                 6750                              4                             15
+            13 Supplier#000000005___IRAQ                 6288                              5                             11
+            14 Supplier#000000005___IRAQ                 6288                              5                             11
+            15 Supplier#000000005___IRAQ                 6288                              5                             11
+            16 Supplier#000000006___KENYA                 6534                              6                             14
+            17 Supplier#000000006___KENYA                 6534                              6                             14
+            18 Supplier#000000006___KENYA                 6534                              6                             14
+            19 Supplier#000000007___UNITED KINGDOM                 6075                              7                             23
+            20 Supplier#000000007___UNITED KINGDOM                 6075                              7                             23
+            21 Supplier#000000007___UNITED KINGDOM                 6075                              7                             23
+            22 Supplier#000000008___PERU                 6417                              8                             17
+            23 Supplier#000000008___PERU                 6417                              8                             17
+            24 Supplier#000000008___PERU                 6417                              8                             17
+            25 Supplier#000000009___IRAN                 6198                              9                             10
+            26 Supplier#000000009___IRAN                 6198                              9                             10
+            27 Supplier#000000009___IRAN                 6198                              9                             10
+            28 Supplier#000000010___UNITED STATES                 7056                             10                             24
+            29 Supplier#000000010___UNITED STATES                 7056                             10                             24
+            30 Supplier#000000010___UNITED STATES                 7056                             10                             24
+            31 Supplier#000000011___CHINA                 6900                             11                             18
+            32 Supplier#000000011___CHINA                 6900                             11                             18
+            33 Supplier#000000011___CHINA                 6900                             11                             18
+            34 Supplier#000000012___INDIA                 6426                             12                              8
+            35 Supplier#000000012___INDIA                 6426                             12                              8
+            36 Supplier#000000012___INDIA                 6426                             12                              8
+            37 Supplier#000000013___CANADA                 6111                             13                              3
+            38 Supplier#000000013___CANADA                 6111                             13                              3
+            39 Supplier#000000013___CANADA                 6111                             13                              3
+            40 Supplier#000000014___MOROCCO                 6750                             14                             15
+            41 Supplier#000000014___MOROCCO                 6750                             14                             15
+            42 Supplier#000000014___MOROCCO                 6750                             14                             15
+            43 Supplier#000000015___INDIA                 6426                             15                              8
+            44 Supplier#000000015___INDIA                 6426                             15                              8
+            45 Supplier#000000015___INDIA                 6426                             15                              8
+            46 Supplier#000000016___RUSSIA                 6621                             16                             22
+            47 Supplier#000000016___RUSSIA                 6621                             16                             22
+            48 Supplier#000000016___RUSSIA                 6621                             16                             22
+            49 Supplier#000000017___ROMANIA                 6651                             17                             19
+            50 Supplier#000000017___ROMANIA                 6651                             17                             19
+            51 Supplier#000000017___ROMANIA                 6651                             17                             19
+            52 Supplier#000000018___MOZAMBIQUE                 6789                             18                             16
+            53 Supplier#000000018___MOZAMBIQUE                 6789                             18                             16
+            54 Supplier#000000018___MOZAMBIQUE                 6789                             18                             16
+            55 Supplier#000000019___UNITED STATES                 7056                             19                             24
+            56 Supplier#000000019___UNITED STATES                 7056                             19                             24
+            57 Supplier#000000019___UNITED STATES                 7056                             19                             24
+            58 Supplier#000000020___CANADA                 6111                             20                              3
+            59 Supplier#000000020___CANADA                 6111                             20                              3
+            60 Supplier#000000020___CANADA                 6111                             20                              3
+            61 Supplier#000000021___BRAZIL                 6252                             21                              2
+            62 Supplier#000000021___BRAZIL                 6252                             21                              2
+            63 Supplier#000000021___BRAZIL                 6252                             21                              2
+            64 Supplier#000000022___EGYPT                 6459                             22                              4
+            65 Supplier#000000022___EGYPT                 6459                             22                              4
+            66 Supplier#000000022___EGYPT                 6459                             22                              4
+            67 Supplier#000000023___INDONESIA                 6777                             23                              9
+            68 Supplier#000000023___INDONESIA                 6777                             23                              9
+            69 Supplier#000000023___INDONESIA                 6777                             23                              9
+            70 Supplier#000000024___ALGERIA                 6390                             24                              0
+            71 Supplier#000000024___ALGERIA                 6390                             24                              0
+            72 Supplier#000000024___ALGERIA                 6390                             24                              0
+            73 Supplier#000000025___RUSSIA                 6621                             25                             22
+            74 Supplier#000000025___RUSSIA                 6621                             25                             22
+            75 Supplier#000000025___RUSSIA                 6621                             25                             22
+            76 Supplier#000000026___VIETNAM                 6681                             26                             21
+            77 Supplier#000000026___VIETNAM                 6681                             26                             21
+            78 Supplier#000000026___VIETNAM                 6681                             26                             21
+            79 Supplier#000000027___CHINA                 6900                             27                             18
+            80 Supplier#000000027___CHINA                 6900                             27                             18
+            81 Supplier#000000027___CHINA                 6900                             27                             18
+            82 Supplier#000000028___ALGERIA                 6390                             28                              0
+            83 Supplier#000000028___ALGERIA                 6390                             28                              0
+            84 Supplier#000000028___ALGERIA                 6390                             28                              0
+            85 Supplier#000000029___ARGENTINA                 6315                             29                              1
+            86 Supplier#000000029___ARGENTINA                 6315                             29                              1
+            87 Supplier#000000029___ARGENTINA                 6315                             29                              1
+            88 Supplier#000000030___MOZAMBIQUE                 6789                             30                             16
+            89 Supplier#000000030___MOZAMBIQUE                 6789                             30                             16
+            90 Supplier#000000030___MOZAMBIQUE                 6789                             30                             16
+            91 Supplier#000000031___MOZAMBIQUE                 6789                             31                             16
+            92 Supplier#000000031___MOZAMBIQUE                 6789                             31                             16
+            93 Supplier#000000031___MOZAMBIQUE                 6789                             31                             16
+            94 Supplier#000000032___UNITED KINGDOM                 6075                             32                             23
+            95 Supplier#000000032___UNITED KINGDOM                 6075                             32                             23
+            96 Supplier#000000032___UNITED KINGDOM                 6075                             32                             23
+            97 Supplier#000000033___GERMANY                 6504                             33                              7
+            98 Supplier#000000033___GERMANY                 6504                             33                              7
+            99 Supplier#000000033___GERMANY                 6504                             33                              7
+           100 Supplier#000000034___IRAN                 6198                             34                             10
+           101 Supplier#000000034___IRAN                 6198                             34                             10
+           102 Supplier#000000034___IRAN                 6198                             34                             10
+           103 Supplier#000000035___VIETNAM                 6681                             35                             21
+           104 Supplier#000000035___VIETNAM                 6681                             35                             21
+           105 Supplier#000000035___VIETNAM                 6681                             35                             21
+           106 Supplier#000000036___JORDAN                 5418                             36                             13
+           107 Supplier#000000036___JORDAN                 5418                             36                             13
+           108 Supplier#000000036___JORDAN                 5418                             36                             13
+           109 Supplier#000000037___ALGERIA                 6390                             37                              0
+           110 Supplier#000000037___ALGERIA                 6390                             37                              0
+           111 Supplier#000000037___ALGERIA                 6390                             37                              0
+           112 Supplier#000000038___EGYPT                 6459                             38                              4
+           113 Supplier#000000038___EGYPT                 6459                             38                              4
+           114 Supplier#000000038___EGYPT                 6459                             38                              4
+           115 Supplier#000000039___INDIA                 6426                             39                              8
+           116 Supplier#000000039___INDIA                 6426                             39                              8
+           117 Supplier#000000039___INDIA                 6426                             39                              8
+           118 Supplier#000000040___RUSSIA                 6621                             40                             22
+           119 Supplier#000000040___RUSSIA                 6621                             40                             22
+           120 Supplier#000000040___RUSSIA                 6621                             40                             22
+           121 Supplier#000000041___CHINA                 6900                             41                             18
+           122 Supplier#000000041___CHINA                 6900                             41                             18
+           123 Supplier#000000041___CHINA                 6900                             41                             18
+           124 Supplier#000000042___RUSSIA                 6621                             42                             22
+           125 Supplier#000000042___RUSSIA                 6621                             42                             22
+           126 Supplier#000000042___RUSSIA                 6621                             42                             22
+           127 Supplier#000000043___JAPAN                 6513                             43                             12
+           128 Supplier#000000043___JAPAN                 6513                             43                             12
+           129 Supplier#000000043___JAPAN                 6513                             43                             12
+           130 Supplier#000000044___GERMANY                 6504                             44                              7
+           131 Supplier#000000044___GERMANY                 6504                             44                              7
+           132 Supplier#000000044___GERMANY                 6504                             44                              7
+           133 Supplier#000000045___INDONESIA                 6777                             45                              9
+           134 Supplier#000000045___INDONESIA                 6777                             45                              9
+           135 Supplier#000000045___INDONESIA                 6777                             45                              9
+           136 Supplier#000000046___UNITED STATES                 7056                             46                             24
+           137 Supplier#000000046___UNITED STATES                 7056                             46                             24
+           138 Supplier#000000046___UNITED STATES                 7056                             46                             24
+           139 Supplier#000000047___KENYA                 6534                             47                             14
+           140 Supplier#000000047___KENYA                 6534                             47                             14
+           141 Supplier#000000047___KENYA                 6534                             47                             14
+           142 Supplier#000000048___KENYA                 6534                             48                             14
+           143 Supplier#000000048___KENYA                 6534                             48                             14
+           144 Supplier#000000048___KENYA                 6534                             48                             14
+           145 Supplier#000000049___UNITED STATES                 7056                             49                             24
+           146 Supplier#000000049___UNITED STATES                 7056                             49                             24
+           147 Supplier#000000049___UNITED STATES                 7056                             49                             24
+           148 Supplier#000000050___INDONESIA                 6777                             50                              9
+           149 Supplier#000000050___INDONESIA                 6777                             50                              9
+           150 Supplier#000000050___INDONESIA                 6777                             50                              9
+           151 Supplier#000000051___INDONESIA                 6777                             51                              9
+           152 Supplier#000000051___INDONESIA                 6777                             51                              9
+           153 Supplier#000000051___INDONESIA                 6777                             51                              9
+           154 Supplier#000000052___ROMANIA                 6651                             52                             19
+           155 Supplier#000000052___ROMANIA                 6651                             52                             19
+           156 Supplier#000000052___ROMANIA                 6651                             52                             19
+           157 Supplier#000000053___GERMANY                 6504                             53                              7
+           158 Supplier#000000053___GERMANY                 6504                             53                              7
+           159 Supplier#000000053___GERMANY                 6504                             53                              7
+           160 Supplier#000000054___JAPAN                 6513                             54                             12
+           161 Supplier#000000054___JAPAN                 6513                             54                             12
+           162 Supplier#000000054___JAPAN                 6513                             54                             12
+           163 Supplier#000000055___UNITED STATES                 7056                             55                             24
+           164 Supplier#000000055___UNITED STATES                 7056                             55                             24
+           165 Supplier#000000055___UNITED STATES                 7056                             55                             24
+           166 Supplier#000000056___MOZAMBIQUE                 6789                             56                             16
+           167 Supplier#000000056___MOZAMBIQUE                 6789                             56                             16
+           168 Supplier#000000056___MOZAMBIQUE                 6789                             56                             16
+           169 Supplier#000000057___PERU                 6417                             57                             17
+           170 Supplier#000000057___PERU                 6417                             57                             17
+           171 Supplier#000000057___PERU                 6417                             57                             17
+           172 Supplier#000000058___MOZAMBIQUE                 6789                             58                             16
+           173 Supplier#000000058___MOZAMBIQUE                 6789                             58                             16
+           174 Supplier#000000058___MOZAMBIQUE                 6789                             58                             16
+           175 Supplier#000000059___PERU                 6417                             59                             17
+           176 Supplier#000000059___PERU                 6417                             59                             17
+           177 Supplier#000000059___PERU                 6417                             59                             17
+           178 Supplier#000000060___INDIA                 6426                             60                              8
+           179 Supplier#000000060___INDIA                 6426                             60                              8
+           180 Supplier#000000060___INDIA                 6426                             60                              8
+           181 Supplier#000000061___INDIA                 6426                             61                              8
+           182 Supplier#000000061___INDIA                 6426                             61                              8
+           183 Supplier#000000061___INDIA                 6426                             61                              8
+           184 Supplier#000000062___ROMANIA                 6651                             62                             19
+           185 Supplier#000000062___ROMANIA                 6651                             62                             19
+           186 Supplier#000000062___ROMANIA                 6651                             62                             19
+           187 Supplier#000000063___ETHIOPIA                 6342                             63                              5
+           188 Supplier#000000063___ETHIOPIA                 6342                             63                              5
+           189 Supplier#000000063___ETHIOPIA                 6342                             63                              5
+           190 Supplier#000000064___UNITED STATES                 7056                             64                             24
+           191 Supplier#000000064___UNITED STATES                 7056                             64                             24
+           192 Supplier#000000064___UNITED STATES                 7056                             64                             24
+           193 Supplier#000000065___RUSSIA                 6621                             65                             22
+           194 Supplier#000000065___RUSSIA                 6621                             65                             22
+           195 Supplier#000000065___RUSSIA                 6621                             65                             22
+           196 Supplier#000000066___UNITED KINGDOM                 6075                             66                             23
+           197 Supplier#000000066___UNITED KINGDOM                 6075                             66                             23
+           198 Supplier#000000066___UNITED KINGDOM                 6075                             66                             23
+           199 Supplier#000000067___EGYPT                 6459                             67                              4
+           200 Supplier#000000067___EGYPT                 6459                             67                              4
+           201 Supplier#000000067___EGYPT                 6459                             67                              4
+           202 Supplier#000000068___VIETNAM                 6681                             68                             21
+           203 Supplier#000000068___VIETNAM                 6681                             68                             21
+           204 Supplier#000000068___VIETNAM                 6681                             68                             21
+           205 Supplier#000000069___EGYPT                 6459                             69                              4
+           206 Supplier#000000069___EGYPT                 6459                             69                              4
+           207 Supplier#000000069___EGYPT                 6459                             69                              4
+           208 Supplier#000000070___FRANCE                 6030                             70                              6
+           209 Supplier#000000070___FRANCE                 6030                             70                              6
+           210 Supplier#000000070___FRANCE                 6030                             70                              6
+           211 Supplier#000000071___ARGENTINA                 6315                             71                              1
+           212 Supplier#000000071___ARGENTINA                 6315                             71                              1
+           213 Supplier#000000071___ARGENTINA                 6315                             71                              1
+           214 Supplier#000000072___CHINA                 6900                             72                             18
+           215 Supplier#000000072___CHINA                 6900                             72                             18
+           216 Supplier#000000072___CHINA                 6900                             72                             18
+           217 Supplier#000000073___MOZAMBIQUE                 6789                             73                             16
+           218 Supplier#000000073___MOZAMBIQUE                 6789                             73                             16
+           219 Supplier#000000073___MOZAMBIQUE                 6789                             73                             16
+           220 Supplier#000000074___SAUDI ARABIA                 6135                             74                             20
+           221 Supplier#000000074___SAUDI ARABIA                 6135                             74                             20
+           222 Supplier#000000074___SAUDI ARABIA                 6135                             74                             20
+           223 Supplier#000000075___CHINA                 6900                             75                             18
+           224 Supplier#000000075___CHINA                 6900                             75                             18
+           225 Supplier#000000075___CHINA                 6900                             75                             18
+           226 Supplier#000000076___KENYA                 6534                             76                             14
+           227 Supplier#000000076___KENYA                 6534                             76                             14
+           228 Supplier#000000076___KENYA                 6534                             76                             14
+           229 Supplier#000000077___GERMANY                 6504                             77                              7
+           230 Supplier#000000077___GERMANY                 6504                             77                              7
+           231 Supplier#000000077___GERMANY                 6504                             77                              7
+           232 Supplier#000000078___ETHIOPIA                 6342                             78                              5
+           233 Supplier#000000078___ETHIOPIA                 6342                             78                              5
+           234 Supplier#000000078___ETHIOPIA                 6342                             78                              5
+           235 Supplier#000000079___KENYA                 6534                             79                             14
+           236 Supplier#000000079___KENYA                 6534                             79                             14
+           237 Supplier#000000079___KENYA                 6534                             79                             14
+           238 Supplier#000000080___VIETNAM                 6681                             80                             21
+           239 Supplier#000000080___VIETNAM                 6681                             80                             21
+           240 Supplier#000000080___VIETNAM                 6681                             80                             21
+           241 Supplier#000000081___JAPAN                 6513                             81                             12
+           242 Supplier#000000081___JAPAN                 6513                             81                             12
+           243 Supplier#000000081___JAPAN                 6513                             81                             12
+           244 Supplier#000000082___CHINA                 6900                             82                             18
+           245 Supplier#000000082___CHINA                 6900                             82                             18
+           246 Supplier#000000082___CHINA                 6900                             82                             18
+           247 Supplier#000000083___KENYA                 6534                             83                             14
+           248 Supplier#000000083___KENYA                 6534                             83                             14
+           249 Supplier#000000083___KENYA                 6534                             83                             14
+           250 Supplier#000000084___UNITED STATES                 7056                             84                             24
+           251 Supplier#000000084___UNITED STATES                 7056                             84                             24
+           252 Supplier#000000084___UNITED STATES                 7056                             84                             24
+           253 Supplier#000000085___GERMANY                 6504                             85                              7
+           254 Supplier#000000085___GERMANY                 6504                             85                              7
+           255 Supplier#000000085___GERMANY                 6504                             85                              7
+           256 Supplier#000000086___ROMANIA                 6651                             86                             19
+           257 Supplier#000000086___ROMANIA                 6651                             86                             19
+           258 Supplier#000000086___ROMANIA                 6651                             86                             19
+           259 Supplier#000000087___UNITED STATES                 7056                             87                             24
+           260 Supplier#000000087___UNITED STATES                 7056                             87                             24
+           261 Supplier#000000087___UNITED STATES                 7056                             87                             24
+           262 Supplier#000000088___IRAQ                 6288                             88                             11
+           263 Supplier#000000088___IRAQ                 6288                             88                             11
+           264 Supplier#000000088___IRAQ                 6288                             88                             11
+           265 Supplier#000000089___INDONESIA                 6777                             89                              9
+           266 Supplier#000000089___INDONESIA                 6777                             89                              9
+           267 Supplier#000000089___INDONESIA                 6777                             89                              9
+           268 Supplier#000000090___FRANCE                 6030                             90                              6
+           269 Supplier#000000090___FRANCE                 6030                             90                              6
+           270 Supplier#000000090___FRANCE                 6030                             90                              6
+           271 Supplier#000000091___CANADA                 6111                             91                              3
+           272 Supplier#000000091___CANADA                 6111                             91                              3
+           273 Supplier#000000091___CANADA                 6111                             91                              3
+           274 Supplier#000000092___BRAZIL                 6252                             92                              2
+           275 Supplier#000000092___BRAZIL                 6252                             92                              2
+           276 Supplier#000000092___BRAZIL                 6252                             92                              2
+           277 Supplier#000000093___MOZAMBIQUE                 6789                             93                             16
+           278 Supplier#000000093___MOZAMBIQUE                 6789                             93                             16
+           279 Supplier#000000093___MOZAMBIQUE                 6789                             93                             16
+           280 Supplier#000000094___EGYPT                 6459                             94                              4
+           281 Supplier#000000094___EGYPT                 6459                             94                              4
+           282 Supplier#000000094___EGYPT                 6459                             94                              4
+           283 Supplier#000000095___ROMANIA                 6651                             95                             19
+           284 Supplier#000000095___ROMANIA                 6651                             95                             19
+           285 Supplier#000000095___ROMANIA                 6651                             95                             19
+           286 Supplier#000000096___JAPAN                 6513                             96                             12
+           287 Supplier#000000096___JAPAN                 6513                             96                             12
+           288 Supplier#000000096___JAPAN                 6513                             96                             12
+           289 Supplier#000000097___EGYPT                 6459                             97                              4
+           290 Supplier#000000097___EGYPT                 6459                             97                              4
+           291 Supplier#000000097___EGYPT                 6459                             97                              4
+           292 Supplier#000000098___VIETNAM                 6681                             98                             21
+           293 Supplier#000000098___VIETNAM                 6681                             98                             21
+           294 Supplier#000000098___VIETNAM                 6681                             98                             21
+           295 Supplier#000000099___CHINA                 6900                             99                             18
+           296 Supplier#000000099___CHINA                 6900                             99                             18
+           297 Supplier#000000099___CHINA                 6900                             99                             18
+           298 Supplier#000000100___VIETNAM                 6681                            100                             21
+           299 Supplier#000000100___VIETNAM                 6681                            100                             21
+           300 Supplier#000000100___VIETNAM                 6681                            100                             21
