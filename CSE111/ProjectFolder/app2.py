@@ -52,11 +52,15 @@ def renderIndex():
 @app.route('/viewAllRegions')
 def viewAllRegions():
         
+        #Perfrom the query based on code from lab 7 
         sql = """SELECT * 
                  FROM region """
         
+        #Connect to DB **Necessary before each query 
         conn = openConnection(database)
         cur = conn.cursor()
+
+        #Execute query and save all rows to a variable
         cur.execute(sql)
         _regions = cur.fetchall()
 
@@ -74,13 +78,26 @@ def viewIndPokemon(pokemonName):
     sql = """SELECT * 
                  FROM pokemon
                   WHERE p_name = ? """
+    
+    #Second query we will display on viewIndPokemon Page
+    evoQuery = """SELECT p2.p_name
+                    FROM pokemon p1, pokemon p2 
+                        WHERE p1.p_name == ? AND 
+                        p1.p_evo_species = p2.p_evo_species
+                        ORDER BY p2.p_evolution_stage ASC"""
         
     conn = openConnection(database)
     cur = conn.cursor()
+
     cur.execute(sql, (pokemonName, ))
     _pokeInfo = cur.fetchall()
+
+    #Need to execute seperate queries separately to obtain different list vars we can pass to the HTML page
+    cur.execute(evoQuery, (pokemonName, ))
+    _evoGroup = cur.fetchall()
      
-    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo)
+     #Pass both vars to html page
+    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo, evoGroup = _evoGroup)
 
 @app.route('/viewAllPokemon')
 def viewAllPokemon():
@@ -89,14 +106,50 @@ def viewAllPokemon():
 
     sql = """SELECT * 
                  FROM pokemon"""
+    
         
     conn = openConnection(database)
     cur = conn.cursor()
+
     cur.execute(sql)
     _allPokemon = cur.fetchall()
      
     return render_template('viewAllPokemon.html', allPokemon = _allPokemon)
 
+@app.route('/viewAllTrainers')
+def viewAllTrainers():
+    sql = """SELECT * 
+                 FROM trainers"""
+     
+    conn = openConnection(database)
+    cur = conn.cursor()
+    cur.execute(sql)
+    _allTrainers = cur.fetchall()
+     
+    return render_template('viewAllTrainers.html', allTrainers = _allTrainers)
+
+@app.route('/viewIndTrainer/<trainerName>')
+def viewIndTrainer(trainerName):
+    sql = """ SELECT *
+                FROM trainers
+                WHERE t_name == ?"""
+    
+    pokeQuery = """ SELECT DISTINCT t1.tp_pokemon
+                    FROM trainer_to_pokemon t1
+                    WHERE t1.tp_trainer == ?;"""
+     
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    cur.execute(sql, (trainerName, ))
+    _trainerInfo = cur.fetchall()
+
+    cur.execute(pokeQuery, (trainerName, ))
+    _trainerPokemon = cur.fetchall()
+
+
+
+    return render_template("viewIndTrainer.html", trainerInfo = _trainerInfo, trainerPokemon = _trainerPokemon)
      
 
 if __name__ == '__main__':

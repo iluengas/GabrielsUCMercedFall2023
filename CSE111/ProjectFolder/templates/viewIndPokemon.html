@@ -8,6 +8,8 @@
          <br>
          <a href = '/'><button>HomePage</button></a><br>
 
+         <img src="/static/images/pokemon/{{pokeInfo[0][29]}}.png" alt="Test">
+
 
          <h3>Pokemon Stats: </h3><br>
          <table border = 1>
@@ -102,6 +104,23 @@
                <td> {{ row[39] }} </td>
                <td> {{ row[40] }} </td>
                <td> {{ row[41] }} </td>
+            </tr>
+        
+            {% endfor %}
+         </table> <br>
+
+
+        <!-- Another table to show evolution stages for the current pokemon -->
+         <h3>Evolution Stages: </h3><br>
+         <table border = 1>
+
+            {% for row in evoGroup %}
+        
+            <tr>
+                
+                <td><a href="/viewIndPokemon/{{ row[0] }}"><img src="/static/images/pokemon/{{ row[0] }}.png" alt="Test"><br>{{ row[0] }}</a></td>
+               
+               
             </tr>
         
             {% endfor %}

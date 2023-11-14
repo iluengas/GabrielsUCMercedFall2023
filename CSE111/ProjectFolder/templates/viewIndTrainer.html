@@ -1,0 +1,60 @@
+<!-- This is the Page to view an Individual Trainers's Stats: all columns of a specific row within the trainer table in pokeData.db -->
+
+<!DOCTYPE html>
+<html>
+    <body>
+        <!-- We can use this type of Jinja2 syntax to directly pull variables/attributes from an argument list -->
+        <h1>View {{trainerInfo[0][3]}} Information: </h1>
+         <br>
+         <a href = '/'><button>HomePage</button></a><br>
+
+
+         <h3>Trainer Stats: </h3><br>
+         <table border = 1>
+            <tr>
+                <th>t_id</th>
+                <th>t_region</th>
+                <th>t_gen</th>
+                <th>t_name</th>
+                <th>t_type</th>
+                <th>t_role</th>
+                
+            </tr>
+
+            {% for row in trainerInfo %}
+        
+            <tr>
+                <!-- Dislays ALL of the attributes for the trainer, we can change the order as we wish. -->
+               <td> {{ row[0] }} </td>
+               <td> {{ row[1] }} </td>
+               <td> {{ row[2] }} </td>
+               <td> {{ row[3] }} </td>
+               <td> {{ row[4] }} </td>
+               <td> {{ row[5] }} </td>
+
+            </tr>
+        
+            {% endfor %}
+         </table> <br>
+
+
+         <h3>Pokemon Team: </h3><br>
+         <table border = 1>
+            <tr>
+                <th>Pokemon</th>
+                
+            </tr>
+
+            {% for row in trainerPokemon %}
+        
+            <tr>
+                <!-- Pull img from static -->
+               <td><a href="/viewIndPokemon/{{ row[0] }}"><img src="/static/images/pokemon/{{ row[0] }}.png" alt="Test"><br>{{ row[0] }}</a></td>
+
+            </tr>
+        
+            {% endfor %}
+         </table> <br>
+
+    </body>
+</html>
