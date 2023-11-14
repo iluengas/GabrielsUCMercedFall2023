@@ -1,0 +1,50 @@
+<!-- This is the page to view all regions found in the region table in pokeData.db -->
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>View All Regions: </h1>
+         <br>
+
+         <!-- Redirect to the homepage  -->
+         <a href = '/'><button>HomePage</button></a><br>
+
+
+         <h3>Region Info: </h3><br>
+         <table border = 1>
+
+            <!-- Define column headers -->
+            <tr>
+                <th>r_region_name</th>
+                <th>r_gen</th>
+                <th>r_fire_starter</th>
+                <th>r_water_starter</th>
+                <th>r_grass_starter</th>
+                <th>r_box_1</th>
+                <th>r_box_2</th>
+                <th>r_box_3</th>
+            </tr>
+
+            <!-- The Regions variable was passed to this html page as an iterable list.
+                We can iterate through this list and display the data within the list using Jinja2 -->
+
+            {% for row in regions %}
+        
+            <tr>
+               <td> {{ row[0] }} </td>
+               <td> {{ row[1] }} </td>
+               <!-- We can use the information pulled from each list object to include arguments in our redirects. 
+                    Here, we use the pokemon's name attribute to pass to another route that will pull up the view page for that pokemon -->
+               <td><a href="/viewIndPokemon/{{ row[2] }}">{{ row[2] }}</a></td>
+               <td><a href="/viewIndPokemon/{{ row[3] }}">{{ row[3] }}</a></td>
+               <td><a href="/viewIndPokemon/{{ row[4] }}">{{ row[4] }}</a></td>
+               <td><a href="/viewIndPokemon/{{ row[5] }}">{{ row[5] }}</a></td>
+               <td><a href="/viewIndPokemon/{{ row[6] }}">{{ row[6] }}</a></td>
+               <td><a href="/viewIndPokemon/{{ row[7] }}">{{ row[7] }}</a></td>
+
+            </tr>
+        
+            {% endfor %}
+         </table> <br>
+
+    </body>
+</html>
