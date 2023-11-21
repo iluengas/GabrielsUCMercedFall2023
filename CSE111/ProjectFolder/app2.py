@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 import sqlite3
 from sqlite3 import Error
+import glob
 
 
 #Configure Flask app
@@ -150,7 +151,76 @@ def viewIndTrainer(trainerName):
 
 
     return render_template("viewIndTrainer.html", trainerInfo = _trainerInfo, trainerPokemon = _trainerPokemon)
+
+@app.route('/viewAllAbilities')
+def viewAllAbilities():
+    sql = """ SELECT * 
+                FROM abilities"""
      
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    cur.execute(sql)
+    _allAbilities = cur.fetchall()
+     
+    return render_template("viewAllAbilities.html", allAbilities = _allAbilities)
+
+@app.route('/viewIndAbility/<abilityName>')
+def viewAllAbility(abilityName):
+    sql = """ SELECT * 
+                FROM abilities 
+                WHERE a_name == ?"""
+    
+    pokeQuery = """SELECT DISTINCT pa_pokemon
+                FROM abilities, pokemon_to_abilities
+                WHERE a_name = ? AND 
+                        (a_name = pa_ability1 OR 
+                            a_name = pa_ability2 OR 
+                                a_name = pa_hidden_ability)"""
+     
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    cur.execute(sql, (abilityName,))
+    _allAbilities = cur.fetchall()
+
+    cur.execute(pokeQuery, (abilityName, ))
+    _pokemonWithAbility = cur.fetchall()
+
+    print (_pokemonWithAbility)
+     
+    return render_template("viewIndAbility.html", allAbilities = _allAbilities, pokemonWithAbility = _pokemonWithAbility)
+
+@app.route('/viewEggGroups')
+def viewEggGroups():
+    sql = """SELECT *
+                FROM egg_groups"""
+
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    cur.execute(sql)
+    _allEggGroups = cur.fetchall()
+
+
+    return render_template("viewEggGroups.html", allEggGroups = _allEggGroups) 
+
+@app.route('/viewIndEggGroup/<eggGroup>')
+def viewIndEggGroup(eggGroup):
+    sql = """SELECT *
+                FROM egg_groups
+                    WHERE e_egg_group_1 == ? OR 
+                            e_egg_group_2 == ? """
+
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    cur.execute(sql, (eggGroup, eggGroup,))
+    _pokemonInEggGroup = cur.fetchall()
+
+
+    return render_template("viewIndEggGroup.html", pokemonInEggGroup = _pokemonInEggGroup, eggGroup = eggGroup) 
+
 
 if __name__ == '__main__':
 
