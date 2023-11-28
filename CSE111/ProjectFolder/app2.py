@@ -71,6 +71,35 @@ def viewAllRegions():
             #We can parse through the list in the html page with Jinja2 
         return render_template('viewAllRegions.html', regions = _regions)
 
+@app.route("/viewIndRegion/<regionName>")
+def viewIndRegion(regionName):
+
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    sql = """SELECT * 
+                FROM region 
+                WHERE r_region_name = ?"""
+    
+    cur.execute(sql, (regionName, ))
+    _regionInfo = cur.fetchall()
+    
+    trainerQuery = """SELECT t_name 
+                        FROM trainers
+                        WHERE t_region = ? """
+    cur.execute(trainerQuery, (regionName, ))
+    _regionTrainers = cur.fetchall()
+
+    print (_regionTrainers)
+    
+    
+    
+
+    return render_template("viewIndRegion.html", regionInfo = _regionInfo, regionTrainers = _regionTrainers)
+    
+    
+
+
 @app.route('/viewIndPokemon/<pokemonName>')
 def viewIndPokemon(pokemonName):
 
@@ -220,6 +249,20 @@ def viewIndEggGroup(eggGroup):
 
 
     return render_template("viewIndEggGroup.html", pokemonInEggGroup = _pokemonInEggGroup, eggGroup = eggGroup) 
+
+@app.route("/test")
+def test():
+    sql = """SELECT *
+                FROM region """
+
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    cur.execute(sql)
+    _regionInfo = cur.fetchall()
+
+    return render_template("test.html", regionInfo=json.dumps(_regionInfo))
+
 
 
 if __name__ == '__main__':

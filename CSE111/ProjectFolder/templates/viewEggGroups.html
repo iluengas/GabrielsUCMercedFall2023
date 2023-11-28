@@ -22,7 +22,7 @@
             {% for row in allEggGroups %}
         
             <tr>
-                <td><a href="/viewIndPokemon/{{ row[0] }}">{{ row[0] }}</a></td>
+                <td><a href="/viewIndPokemon/{{ row[0] }}"><img src="/static/images/pokemon/{{ row[0] }}.png" alt="Test" width="100"><br>{{ row[0] }}</a></td>
                <td><a href="/viewIndEggGroup/{{ row[1] }}">{{ row[1] }}</a></td>
                <td><a href="/viewIndEggGroup/{{ row[2] }}">{{ row[2] }}</a> </td>
             </tr>

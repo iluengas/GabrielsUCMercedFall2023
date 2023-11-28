@@ -15,6 +15,11 @@
          <h3>Pokemon Stats: </h3><br>
          <table border = 1>
             <tr>
+                
+                <th>Name</th>
+                <th>Classification</th>
+                <th>Type-1</th>
+                <th>Type-2</th>
                 <th>p_against_bug</th>
                 <th>p_against_dark</th>
                 <th>p_against_dragon</th>
@@ -63,6 +68,10 @@
         
             <tr>
                 <!-- Dislays ALL of the attributes for the pokemon, we can change the order as we wish. -->
+                <td><a href="/viewIndPokemon/{{ row[29] }}">{{ row[29] }}</a></td>
+                <td> {{ row[23] }} </td>
+                <td> <img src="/static/images/typeIcons/{{row[35]}}.png" alt="Test" width="50"> {{ row[35] }} </td>
+                <td> <img src="/static/images/typeIcons/{{row[36]}}.png" alt="Test" width="50"> {{ row[36] }} </td>
                <td> {{ row[0] }} </td>
                <td> {{ row[1] }} </td>
                <td> {{ row[2] }} </td>
