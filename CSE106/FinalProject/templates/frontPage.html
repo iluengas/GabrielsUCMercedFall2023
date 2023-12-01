@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Front Page - Viewing All Posts: </h1><br><br>
+
+        <!-- You can dynamically change DOM elements depending on login status with the loggedIn variable  -->
+        {% if loggedIn %}
+        <a href="redirectAccountPage"><button id="redirectAccountPage"> Account </button></a> <br><br>
+        <a href="redirectCreatePost"><button id="redirectCreatePost"> Create Post </button></a>
+        {% else %}
+        <a href="redirectLoginPage"><button id="redirectLoginPage"> Login </button></a>
+        {% endif %}
+
+
+        <!-- Each index of the row is a column in the db. 
+        postID - row[0]
+        post_userID(the data will be translated by the server to the username of the poster instead of their integer ID) - row[1]
+        post_textContent - row[2]
+        post_imageContent - row[3]
+        post_creationDate - row[4]
+        post_likes - row[5]
+        post_dislikes - row[6] -->
+        {% for row in postData %}
+            <p>{{ row[0] }} | 
+                {{ row[1] }} | 
+                {{ row[2] }} | 
+                <img src="data:image/png;base64,{{ row[3] }}" alt="Profile Picture" width="100"> |
+                {{ row[4] }} | 
+                {{ row[5] }} | 
+                {{ row[6] }}
+            </p>
+        {% endfor %}
+            
+    </body>
+</html>
