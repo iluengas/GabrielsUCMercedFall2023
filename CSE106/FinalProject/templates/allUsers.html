@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% for row in allUsers %}
+            <p>{{ row[0] }}</p>
+            <p>{{ row[1] }}</p>
+            <p>{{ row[2] }}</p>
+            <img src="data:image/png;base64,{{ row[3] }}" alt="Profile Picture">
+        {% endfor %}
+    </body>
+</html>

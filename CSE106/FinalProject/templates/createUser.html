@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <form action = "http://localhost:5000/createUser" method = "POST" enctype="multipart/form-data">
+			<p>Enter Username: </p>
+			<input type="text" 
+			name="newUsername" 
+			pattern="^[a-zA-Z0-9\s\S]*$" 
+			title="Must Only Contain A-z, 0-9" required>
+			<p>Enter Bio: </p>
+			<input type="text"  
+					name="bio" 
+					pattern="^[a-zA-Z0-9@!?$.]*$" 
+					title='Must only contain Alphanumeric Characters' required>
+            <p>Enter PFP: </p>
+            <input type="file" name="profilePicture" accept="image/png, image/jpeg" required/>
+			<p><input type = "submit" value = "Create User" /></p>
+		</form>
+    </body>
+</html>
