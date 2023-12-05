@@ -1,38 +1,63 @@
 <!DOCTYPE html>
 <html>
+
     <head>
-
+        <title>Cuddle Pile - Home</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='/styling.css') }}">
     </head>
+
     <body>
-        <h1>Front Page - Viewing All Posts: </h1><br><br>
 
-        <!-- You can dynamically change DOM elements depending on login status with the loggedIn variable  -->
-        {% if loggedIn %}
-        <a href="redirectAccountPage"><button id="redirectAccountPage"> Account </button></a> <br><br>
-        <a href="redirectCreatePost"><button id="redirectCreatePost"> Create Post </button></a>
-        {% else %}
-        <a href="redirectLoginPage"><button id="redirectLoginPage"> Login </button></a>
-        {% endif %}
+        <script src = "/static/index.js"></script>
+        <nav>
+           <!-- You can dynamically change DOM elements depending on login status with the loggedIn variable  -->
+            {% if loggedIn %}
+                <a href="redirectAccountPage" id="redirectAccountPage"> Account </a>
+                <a href="redirectCreatePost" id="redirectCreatePost"> Create Post </a>
+            {% else %}
+                <a href="redirectLoginPage" id="redirectLoginPage"> Login </a>
+            {% endif %}
+        </nav>
 
+        <!--   Add spacing     -->
+        <br><br>
+        <h1>Cuddle Pile</h1>
 
-        <!-- Each index of the row is a column in the db. 
-        postID - row[0]
-        post_userID(the data will be translated by the server to the username of the poster instead of their integer ID) - row[1]
-        post_textContent - row[2]
-        post_imageContent - row[3]
-        post_creationDate - row[4]
-        post_likes - row[5]
-        post_dislikes - row[6] -->
         {% for row in postData %}
-            <p>{{ row[0] }} | 
-                {{ row[1] }} | 
-                {{ row[2] }} | 
-                <img src="data:image/png;base64,{{ row[3] }}" alt="Profile Picture" width="100"> |
-                {{ row[4] }} | 
-                {{ row[5] }} | 
-                {{ row[6] }}
-            </p>
+            <div class="postBox">
+
+                <div class="postContent">
+                    <div class="left">
+                        <ul>
+                            <li><img src="data:image/png;base64,{{ row[3] }}" alt="Profile Picture" width="100" class="postPic"></li>
+                            <center><li>{{ row[1] }}</li></center>
+                        </ul>
+                    </div>
+
+                    <div class="center">
+                        <ul>
+                            <li>{{ row[2] }}</li>
+                            <br>
+                            <li><button onclick="likePost('{{row[0]}}')"><img src="/static/like_btn.png" alt="Like Button" class="like_dislike"></button>
+                                <span class="count" id="likeButton{{row[0]}}">{{ row[5] }}</span></li>
+                            <li><button onclick="dislikePost('{{row[0]}}')"><img src="/static/dislike_btn.webp" alt="Dislike Button" class="like_dislike"></button>
+                                <span class="count" id="dislikeButton{{ row[0] }}">{{ row[6] }}</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="right">
+                        <ul>
+                            <li>Published:</li>
+                            <li>{{ row[4] }}</li>
+                            <br>
+                            <br>
+                            <li><button class="Btn">Reply</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
         {% endfor %}
-            
+
     </body>
 </html>

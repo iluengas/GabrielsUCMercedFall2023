@@ -1,0 +1,112 @@
+body {
+    background-color: #e6e6e6;
+    margin: 0;
+    font-family: "Greyhound Chrome", sans-serif;
+}
+
+nav {
+    background-color: #156064;
+    color: #fff;
+    position: fixed;
+    padding: 10px;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+nav a:visited{
+    color: #fff;
+}
+
+nav a:hover{
+    color: #07020D;
+}
+
+h1 {
+    font-family: "Greyhound Chrome", sans-serif;
+    font-style: italic;
+    font-size: 60px;
+    text-align:center;
+    color: #156064;
+}
+
+.postBox {
+    width: 60%; /* Adjust the width as needed */
+    margin: 20px auto; /* Center the box and add margin */
+    padding: 30px; /* Add padding to the box */
+    border: 5px solid #156064; /* Add a border */
+    background-color: #f0f0f0; /* Set background color */
+    overflow: auto; /* Enable overflow for long content */
+}
+
+.postPic {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.like_dislike {
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.postContent {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.left {
+    justify-self: start;
+}
+
+.center {
+    justify-self: center;
+}
+
+.right {
+    justify-self: end;
+}
+
+.Btn {
+    text-align:center;
+    height: 35px;
+    width: 100px;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #156064;
+    color: #e6e6e6;
+    border-color: #156064;
+    border-radius: 15px;
+
+    display: inline-flex;
+    align-items: center;
+}
+
+.Btn:hover {
+
+    color: #000;
+
+}
+
+.count {
+    margin-left: 10px;
+}
+
+.like_dislike_btn {
+    border: none;
+    outline: none;
+}
+

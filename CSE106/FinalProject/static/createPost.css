@@ -1,0 +1,62 @@
+body {
+    background-color: #e6e6e6;
+    margin: 0;
+    font-family: "Greyhound Chrome", sans-serif;
+    text-align: center;
+}
+
+p {
+    font-style: italic;
+    font-size: 40px;
+    color: #156064;
+}
+
+textarea {
+    width: 80%;
+    height: 100px;
+    padding: 5px;
+}
+
+.loginBtn {
+    text-align:center;
+    height: 35px;
+    width: 100px;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #156064;
+    color: #e6e6e6;
+    border-color: #156064;
+    border-radius: 15px;
+}
+
+.loginBtn:hover {
+
+    color: #000;
+
+}
+
+nav {
+    background-color: #156064;
+    color: #fff;
+    position: fixed;
+    padding: 10px;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+nav a:visited{
+    color: #fff;
+}
+
+nav a:hover{
+    color: #07020D;
+}

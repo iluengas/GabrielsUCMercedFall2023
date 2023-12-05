@@ -1,19 +1,39 @@
 <!-- This html can be anything, it just needs to include this form in some way -->
 <!DOCTYPE html>
 <html>
-    <body>
-        <form action="http://localhost:5000/createPost" method = "POST" enctype="multipart/form-data">
-            <p>Enter Text Content: </p>
-            <input type="text" id="textContent" name="textContent"> <br><br>
-            <p>Enter Image Content: </p>
-            <input type="file" name="imageContent" accept="image/png, image/jpeg"><br><br>
 
-            <p>Select Tags: </p>
+    <head>
+        <title>Cuddle Pile - Create Post</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='/createPost.css') }}">
+    </head>
+
+    <body>
+        <nav>
+           <!-- You can dynamically change DOM elements depending on login status with the loggedIn variable  -->
+            {% if loggedIn %}
+                <a href="redirectAccountPage" id="redirectAccountPage"> Account </a>
+                <a href="redirectFrontPage" id="redirectFrontPage"> Home </a>
+            {% else %}
+                <a href="redirectLoginPage" id="redirectLoginPage"> Login </a>
+            {% endif %}
+        </nav>
+
+        <br><br>
+
+        <form action="{{ url_for('createPost') }}" method = "POST" enctype="multipart/form-data">
+            <p>Enter Text Content</p>
+
+            <!--     Changed this tag from an input to a textarea tag, it looks better       -->
+            <textarea id="textContent" name="textContent" placeholder="Post Content..."></textarea><br>
+            <p>Enter Image Content</p>
+            <input type="file" name="imageContent" accept="image/png, image/jpeg"><br>
+
+            <p>Select Tags</p>
             {% for row in tags %}
-            <input type="checkbox" id="{{ row[1] }}" name="postTags" value="{{ row[1] }}">
+            <input type="checkbox" id="{{ row[0] }}" name="postTags[]" value="{{ row[0] }}">
             <label for="{{ row[1] }}"> {{ row[1] }}</label><br>
             {% endfor %}
-            <p><input type = "submit" value = "Login" /></p>
+            <p><input class="loginBtn" type = "submit" value = "Post" /></p>
           </form>
           
           </body>
