@@ -1,5 +1,5 @@
 async function likePost(postID){
-    let response = await fetch('/likePost/'+postID, {method: 'post'});
+    let response = await fetch('/likePost/'+postID, {method: 'POST'});
 
     if (response.ok) { // if HTTP-status is 200-299
         let newLikeTotal = await response.json();
@@ -13,8 +13,8 @@ async function likePost(postID){
     }
 }
 
-async function dislikePost(postID){
-    let response = await fetch('/dislikePost/'+postID, {method: 'post'});
+async function checkIfDisliked(postID){
+    let response = await fetch('/checkIfDisliked/'+postID, {method: 'POST'});
 
     if (response.ok) { // if HTTP-status is 200-299
         let newDislikeTotal = await response.json();
@@ -22,6 +22,36 @@ async function dislikePost(postID){
         let placehold = document.getElementById("dislikeButton"+postID);  //Selects field with likeButton
 
         placehold.innerHTML = newDislikeTotal;  //plug new data into dom element 
+        
+    } else {
+        alert("HTTP-Error: " + response.status);
+    }
+}
+
+async function dislikePost(postID){
+    let response = await fetch('/dislikePost/'+postID, {method: 'POST'});
+
+    if (response.ok) { // if HTTP-status is 200-299
+        let newDislikeTotal = await response.json();
+        console.log(response);
+        let placehold = document.getElementById("dislikeButton"+postID);  //Selects field with likeButton
+
+        placehold.innerHTML = newDislikeTotal;  //plug new data into dom element 
+        
+    } else {
+        alert("HTTP-Error: " + response.status);
+    }
+}
+
+async function checkIfLiked(postID){
+    let response = await fetch('/checkIfDisliked/'+postID, {method: 'POST'});
+
+    if (response.ok) { // if HTTP-status is 200-299
+        let newLikeTotal = await response.json();
+        console.log(response);
+        let placehold = document.getElementById("likeButton"+postID);  //Selects field with likeButton
+
+        placehold.innerHTML = newLikeTotal;  //plug new data into dom element 
         
     } else {
         alert("HTTP-Error: " + response.status);

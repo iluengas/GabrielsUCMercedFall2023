@@ -76,7 +76,6 @@ class PostTags(UserMixin, db.Model):
     tag = db.relationship('Tags', backref=db.backref('post_tags', lazy=True))
 
 
-
 class Tags(UserMixin, db.Model):
     tagID = db.Column(db.Integer, primary_key=True)
     tagName = db.Column(db.String, unique=True)
@@ -90,6 +89,7 @@ class Dislikes(UserMixin, db.Model):
     d_rowID = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     d_userID = db.Column(db.Integer)
     d_postID = db.Column(db.Integer)
+
 
 #enables us to call current user
 @login_manager.user_loader
@@ -116,6 +116,7 @@ def closeConnection(_conn, _dbFile):
         print("success")
     except Error as e:
         print(e)
+
 
 #Landing Page route, will go to login page
 @app.route('/')
@@ -254,8 +255,14 @@ def display():
     #postData will come as a tuple of tuples, including all data from Posts table
 @app.route("/redirectFrontPage")
 def redirectFrontPage():
-    sql = """SELECT postID, username, post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes 
+    sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
             FROM Posts, Users WHERE post_userID = user_id"""
+    
+    sql2 = """SELECT * 
+            FROM Posts;"""
+    
+    userQuery = """SELECT user_id, profile_picture
+                    FROM Users"""
     
     conn = openConnection(database)
     cur = conn.cursor()
@@ -264,10 +271,13 @@ def redirectFrontPage():
     cur.execute(sql)
     _postData = cur.fetchall()
 
+    cur.execute(userQuery)
+    _profilePics = cur.fetchall()
+
     if current_user.is_authenticated:
-        return render_template("frontPage.html", postData = _postData, loggedIn = 1)
+        return render_template("frontPage.html", postData = _postData, profilePics = _profilePics, loggedIn = 1)
     else:
-        return render_template("frontPage.html", postData = _postData)
+        return render_template("frontPage.html", postData = _postData, profilePics = _profilePics)
     
 #Call this route to redirect to the create Post Page
     #tags will come as a tuple of tuples, including all data from tags table. This will be used to dynamically change the form
@@ -351,31 +361,21 @@ def createPost():
     
         return redirect(url_for('redirectFrontPage'))
 
-@app.route("/likePost/<_postID>", methods=['GET', 'POST'])
+@app.route("/likePost/<_postID>", methods=['POST'])
 @login_required
 def likePost(_postID):
     
     if request.method == 'POST': 
-
-        dislikedQuery = """SELECT * 
-                            FROM Dislikes
-                            WHERE d_userID = ? AND 
-                                    d_postID = ?"""
-        conn = openConnection(database)
-        cur = conn.cursor()
-        args = (current_user.id, _postID)
-        cur.execute(dislikedQuery, args)
-        alreadyDisliked = cur.fetchall()
-
-        # if alreadyDisliked:
-             
-
         #Check if post is already liked by the current User
         likedQuery = """SELECT * 
                 FROM Likes 
                 WHERE l_userID = ? AND
                         l_postID = ?"""
+        
 
+        conn = openConnection(database)
+        cur = conn.cursor()
+        args = (current_user.id, _postID)
         cur.execute(likedQuery, args)
         alreadyLiked = cur.fetchall()
 
@@ -415,8 +415,42 @@ def likePost(_postID):
             db.session.commit()
 
             return str(likedPost.post_likes) 
+
+
+@app.route("/checkIfDisliked/<_postID>", methods=['POST'])
+@login_required
+def checkIfDisliked(_postID):
+    if request.method == 'POST': 
+        sql = """SELECT * 
+                FROM Dislikes 
+                WHERE d_userID = ? AND 
+                    d_postID = ? """
         
-@app.route("/dislikePost/<_postID>", methods=['GET', 'POST'])
+        conn = openConnection(database)
+        cur = conn.cursor()
+        args = (current_user.id, _postID)
+        cur.execute(sql, args)
+        alreadyDisliked = cur.fetchall()
+
+        dislikedPost = Posts.query.filter_by(postId=_postID).first()
+
+        if alreadyDisliked:
+            #Clear row in dislikes table
+            dislikeEntry = Dislikes.query.filter_by(d_userID = current_user.id, d_postID =_postID).one()
+            db.session.delete(dislikeEntry)
+            db.session.commit()
+
+            #Decrement dislikes data from given post
+            dislikedPost.post_dislikes -= 1
+            db.session.commit()
+
+        print("FROM CHECK IF Disliked (return dislikes): "+ str(dislikedPost.post_dislikes)) 
+
+        return str(dislikedPost.post_dislikes)
+
+
+
+@app.route("/dislikePost/<_postID>", methods=['POST'])
 @login_required
 def dislikePost(_postID):
     
@@ -471,7 +505,39 @@ def dislikePost(_postID):
 
             return str(PostToDislike.post_dislikes) 
 
+@app.route("/checkIfLiked/<_postID>", methods=['POST'])
+@login_required
+def checkIfLiked(_postID):
+    if request.method == 'POST': 
+        likedQuery = """SELECT * 
+                FROM Likes 
+                WHERE l_userID = ? AND
+                        l_postID = ?"""
+        
 
+        conn = openConnection(database)
+        cur = conn.cursor()
+        args = (current_user.id, _postID)
+        cur.execute(likedQuery, args)
+        alreadyLiked = cur.fetchall()
+
+        likedPost = Posts.query.filter_by(postId=_postID).first()
+        #undo Like
+        if alreadyLiked:
+            # print(str(current_user.id) + " Already Liked Post-" + str(_postID))
+        
+            #Update Likes Table with user's ID and the post they're liking
+            likeEntry = Likes.query.filter_by(l_userID = current_user.id, l_postID =_postID).one()
+            db.session.delete(likeEntry)
+            db.session.commit()
+
+            #Decrement the post's post_likes entry in the Post Table
+            likedPost.post_likes -= 1
+            db.session.commit()
+
+        print("FROM CHECK IF LIKED (return likes): " + str(likedPost.post_likes))    
+
+        return str(likedPost.post_likes)
 
 if __name__ == '__main__':
  app.run()
