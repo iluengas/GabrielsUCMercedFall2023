@@ -1,24 +1,29 @@
 <!-- This html can be anything, it just needs to include this form in some way -->
 <!DOCTYPE html>
 <html>
-    <head>
-
+	<head>
+        <title>Cuddle Pile - Create User</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/loginOrCreate.css') }}">
     </head>
     <body>
-        <form action = "http://localhost:5000/createUser" method = "POST" enctype="multipart/form-data">
-			<p>Enter Username: </p>
-			<input type="text" 
+		
+
+        <form action = "http://127.0.0.1:5000/createUser" method = "POST" enctype="multipart/form-data">
+			<p>Enter Username </p>
+			<input type="text"
+				   placeholder="Username"
 			name="newUsername" 
 			pattern="^[a-zA-Z0-9\s\S]*$" 
 			title="Must Only Contain A-z, 0-9" required>
-			<p>Enter Bio: </p>
-			<input type="text"  
+			<p>Enter Bio </p>
+			<textarea type="text"
+				   placeholder="Enter Account Bio.."
 					name="bio" 
 					pattern="^[a-zA-Z0-9@!?$.]*$" 
-					title='Must only contain Alphanumeric Characters' required>
-            <p>Enter PFP: </p>
+					  title='Must only contain Alphanumeric Characters' required></textarea>
+            <p>Enter PFP </p>
             <input type="file" name="profilePicture" accept="image/png, image/jpeg" required/>
-			<p><input type = "submit" value = "Create User" /></p>
+			<p><input type = "submit" value = "Create User " class="loginBtn"/></p>
 		</form>
     </body>
 </html>

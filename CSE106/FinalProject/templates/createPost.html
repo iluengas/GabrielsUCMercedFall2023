@@ -10,12 +10,7 @@
     <body>
         <nav>
            <!-- You can dynamically change DOM elements depending on login status with the loggedIn variable  -->
-            {% if loggedIn %}
-                <a href="redirectAccountPage" id="redirectAccountPage"> Account </a>
-                <a href="redirectFrontPage" id="redirectFrontPage"> Home </a>
-            {% else %}
-                <a href="redirectLoginPage" id="redirectLoginPage"> Login </a>
-            {% endif %}
+           <a href="/redirectFrontPage"> HomePage </a>
         </nav>
 
         <br><br>

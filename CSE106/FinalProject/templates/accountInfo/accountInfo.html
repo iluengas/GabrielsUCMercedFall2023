@@ -1,0 +1,51 @@
+<!-- This html can be anything, it just needs to include this form in some way -->
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Cuddle Pile - Account Info</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/loginOrCreate.css') }}">
+    </head>
+    <body>
+        <nav>
+            <a href="/redirectFrontPage"> HomePage </a>
+            <a href="logout" id="logout"> Logout </a>
+        </nav><br><br>
+        <br><br>
+        <h1>{{ accountInfo[1] }}'s Account</h1>
+
+<!--            <p>user_id: {{ accountInfo[0] }}</p>-->
+<!--            <p>username: {{ accountInfo[1] }}</p>-->
+            <a href="/redirectEditUsername"><button class="loginBtn" style="width:200px;">Edit Username</button></a>
+            <a href="/redirectChangePassword"><button class="loginBtn" style="width: 200px;">Change Password</button></a>
+        <br>
+        <br>
+        <div class="accountContent">
+
+            <div class="acc_left">
+                <center>
+                <p style="font-style: normal;">Account Content</p>
+                <a href="/viewLikedPosts"><button class="loginBtn" style="width: 200px;">Liked Posts</button></a> <br><br>
+                <a href="/viewDislikedPosts"><button class="loginBtn" style="width: 200px;">Disliked Posts</button></a><br><br>
+                <a href="/viewMyPosts"><button class="loginBtn" style="width: 200px;">My Posts</button></a><br><br>
+                <a href="/viewMyReplies"><button class="loginBtn" style="width: 200px;">My Replies</button></a><br><br>
+                <a href="/viewMyBookmarks"><button class="loginBtn" style="width: 200px;">My Bookmarks</button></a><br><br>
+                
+                </center>
+            </div>
+
+            <div class="acc_center">
+            <img src="data:image/png;base64,{{ accountInfo[3] }}" alt="pfp" width="400" class="postPic">
+        <br>
+        <br>
+            <a href="/redirectEditPFP"><button class="loginBtn">Edit PFP</button></a>
+        <br>
+            <p style="font-style: normal;">About me: {{ accountInfo[2] }}</p>
+            <a href="/redirectEditBio"><button class="loginBtn">Edit Bio</button></a>
+
+            <p style="font-style: normal;">Member since: {{ accountInfo[4] }}</p>
+            <!-- <p style="font-style: normal;">Profile Visits: {{ accountInfo[5] }}</p> -->
+            </div>
+
+        </div>
+    </body>
+</html>

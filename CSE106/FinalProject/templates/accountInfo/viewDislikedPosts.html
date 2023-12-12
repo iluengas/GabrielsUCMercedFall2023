@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Cuddle Puddle - Dislikes</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='/styling.css') }}">
+    </head>
+
+    <script src="/static/index.js"></script>
+
+    <body>
+        <nav>
+           <!-- You can dynamically change DOM elements depending on login status with the loggedIn variable  -->
+                <a href="/viewAccountInfo" id="redirectAccountPage"> Account </a>
+                <a href="/redirectFrontPage"> HomePage </a>
+        </nav>
+
+        <br><br>
+        <h1 style="font-style: normal;">Disliked Posts</h1>
+
+        <!--   Add spacing     -->
+
+        <center>
+        <label for="tags">Filter Posts:</label>
+            <select id="tags" name="filters">
+              <option value="all">All</option>
+              <option value="tag1">Tag1</option>
+              <option value="tag2">Tag2</option>
+            </select>
+        </center>
+
+        {% for row in postData %}
+            <div class="postBox">
+<!--                style="border-color: #156064;"-->
+
+                <a href="/addBookmark/{{ row[0] }}"><button><img src="/static/bookmark.png" alt="Bookmark Post" class="bookmark"></button></a>
+
+                <div class="postContent">
+                    <div class="left">
+                        <ul>
+<!--                            <li><img src="data:image/png;base64,{{ row[3] }}" alt="Picture Content" width="100" class="postPic"></li>-->
+                            <!-- ** This is the pfp ** -->
+                            <li><img src="data:image/png;base64,{{ row[8] }}" alt="Picture Content" width="100" class="postPic"></li>
+                            <center><li>{{ row[1] }}</li></center>
+                        </ul>
+                    </div>
+
+                    <div class="center">
+                        <ul>
+                            <li>{{ row[2] }}</li>
+                            <br>
+                                    <br>
+                                    <!-- ** This is the post_imageContent ** -->
+                                    <li><img src="data:image/png;base64,{{ row[3] }}" alt="pfp" width="100" class="pfp"></li>
+                                    <br>        
+                                    <!-- BUG: checkIfDisliked('{{row[0]}}'),  checkIfLiked('{{row[0]}}')
+                                        functions should check if a user has already disliked a post when they hit the like button, if they have, it will undo the dislike.
+                                            Similarly, if the user has already liked a video, once they hit the dislike button it will undo the like. 
+                                                In both cases the dislike/like tables must be updated as well as the data in the postData for image likes/dislikes 
+
+                                                ** Will remove like/dislike data from Posts table. The like/dislike table will be queried instead to fill in this data dynamically  -->
+ 
+                            <li><button onclick="likePost('{{row[0]}}')"><img src="/static/like_btn.png" alt="Like Button" class="like_dislike"></button>
+                                <span class="count" id="likeButton{{row[0]}}">{{ row[5] }}</span>
+                            <button onclick="dislikePost('{{row[0]}}')"><img src="/static/dislike_btn.webp" alt="Dislike Button" class="like_dislike"></button>
+                                <span class="count" id="dislikeButton{{ row[0] }}">{{ row[6] }}</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="right">
+                        <ul>
+                            <li>Published:</li>
+                            <li>{{ row[4] }}</li>
+                            <br>
+                            <br>
+                            <li><button class="Btn">Reply</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+
+    </body>
+</html>

@@ -7,7 +7,7 @@ from flask_login import LoginManager, current_user, login_user, login_required, 
 from flask_bcrypt import Bcrypt 
 import sqlite3
 from sqlite3 import Error
-import cv2
+from io import BytesIO
 import base64
 
 
@@ -21,7 +21,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///main.db"
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'redirectLoginPage'
 login_manager.session_protection = "strong"
 
 database = r"instance/main.db"
@@ -69,8 +69,8 @@ class Posts(UserMixin, db.Model):
 
 class PostTags(UserMixin, db.Model):
     rowID = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.postId'), nullable=False)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.tagID'), nullable=False)
+    postID = db.Column(db.Integer, db.ForeignKey('posts.postId'), nullable=False)
+    tagID = db.Column(db.Integer, db.ForeignKey('tags.tagID'), nullable=False)
 
     post = db.relationship('Posts', backref=db.backref('post_tags', lazy=True))
     tag = db.relationship('Tags', backref=db.backref('post_tags', lazy=True))
@@ -90,6 +90,10 @@ class Dislikes(UserMixin, db.Model):
     d_userID = db.Column(db.Integer)
     d_postID = db.Column(db.Integer)
 
+class Bookmarks(UserMixin, db.Model):
+    b_rowID = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    b_postID = db.Column(db.Integer, nullable=False)
+    b_userID = db.Column(db.Integer, nullable=False)
 
 #enables us to call current user
 @login_manager.user_loader
@@ -146,7 +150,7 @@ def login():
     if user is None or not user.check_password(_password):
         error = "Invalid Username or Password"
         flash("Incorrect Username or password")
-        return render_template("login.html", error = error)
+        return render_template("login_profile/login.html", error = error)
     else:
         login_user(user)
         next_page = request.args.get('next')
@@ -162,7 +166,7 @@ def signUp():
 @login_required
 def logout():
     logout_user()
-    return render_template("login.html")
+    return redirect(url_for('redirectLoginPage'))
 
 #Recieves data from createUser.html- Updates Users table with new profile data 
     #Redirects back to homepage
@@ -256,29 +260,103 @@ def display():
 @app.route("/redirectFrontPage")
 def redirectFrontPage():
     sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
-            FROM Posts, Users WHERE post_userID = user_id"""
+            FROM Posts, Users 
+            WHERE post_userID = user_id AND 
+                    parent_postID IS NULL """
     
-    sql2 = """SELECT * 
-            FROM Posts;"""
-    
-    userQuery = """SELECT user_id, profile_picture
-                    FROM Users"""
+    tagQuery = """SELECT * 
+                FROM Tags"""
     
     conn = openConnection(database)
     cur = conn.cursor()
 
         #Execute query and save all rows to a variable
+    cur.execute(tagQuery)
+    _tags = cur.fetchall()
+
+        #Execute query and save all rows to a variable
     cur.execute(sql)
     _postData = cur.fetchall()
 
-    cur.execute(userQuery)
-    _profilePics = cur.fetchall()
 
     if current_user.is_authenticated:
-        return render_template("frontPage.html", postData = _postData, profilePics = _profilePics, loggedIn = 1)
+        return redirect(url_for('redirectFrontPageLoggedIn'))
     else:
-        return render_template("frontPage.html", postData = _postData, profilePics = _profilePics)
+        return render_template("frontPage.html", postData = _postData, tags = _tags)
     
+@app.route("/redirectFrontPageLoggedIn", methods=['GET'])
+@login_required
+def redirectFrontPageLoggedIn():
+    sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+            FROM Posts, Users 
+            WHERE post_userID = user_id AND 
+                    parent_postID IS NULL """
+    
+    tagQuery = """SELECT * 
+                FROM Tags"""
+    
+    bookMarkQuery = """ SELECT * 
+                        FROM Bookmarks
+                            WHERE  b_userID = ?"""
+    
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+        #Execute query and save all rows to a variable
+    cur.execute(tagQuery)
+    _tags = cur.fetchall()
+
+        #Execute query and save all rows to a variable
+    cur.execute(sql)
+    _postData = cur.fetchall()
+
+    cur.execute(bookMarkQuery, (current_user.id, ))
+    _currentUsersBookmarkedPosts = cur.fetchall()
+
+    return render_template("frontPage.html", postData = _postData, loggedIn = 1, tags = _tags, currentUsersBookmarkedPosts=_currentUsersBookmarkedPosts)
+
+    
+@app.route("/filterPosts", methods=['POST'])
+def filterPosts():
+
+    if request.method == 'POST':
+        _filterTagID = request.form["filters"]
+
+        if _filterTagID == 'all':
+            return redirect(url_for('redirectFrontPage'))
+        else:
+
+            sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+                    FROM Posts, Users, 
+                    (
+                        SELECT postID as p_ID
+                        FROM post_tags 
+                        WHERE tagID = ?
+                    )
+                    WHERE postID = p_ID AND 
+                            post_userID = user_id"""
+            
+            tagQuery = """SELECT * 
+                        FROM Tags"""
+            
+            conn = openConnection(database)
+            cur = conn.cursor()
+
+                #Execute query and save all rows to a variable
+            cur.execute(tagQuery)
+            _tags = cur.fetchall()
+
+                #Execute query and save all rows to a variable
+            cur.execute(sql, (_filterTagID, ))
+            _postData = cur.fetchall()
+
+            tagRow = Tags.query.filter_by(tagID=_filterTagID).one()
+
+            if current_user.is_authenticated:
+                return render_template("frontPage.html", postData = _postData, loggedIn = 1, tags = _tags, filterTag = tagRow.tagName)
+            else:
+                return render_template("frontPage.html", postData = _postData, tags = _tags, filterTag = tagRow.tagName)
+        
 #Call this route to redirect to the create Post Page
     #tags will come as a tuple of tuples, including all data from tags table. This will be used to dynamically change the form
 @app.route("/redirectCreatePost")
@@ -339,12 +417,12 @@ def createPost():
         #Update tags table: 
 
         
-        sql = """INSERT INTO PostTags(rowId, postID, tagID)
+        sql = """INSERT INTO post_tags(rowId, postID, tagID)
                                 VALUES(?, ?, ?)"""
         
         for tag in postTags:
             maxRowQuery = """SELECT MAX(rowID) 
-                    FROM PostTags"""
+                    FROM post_tags"""
             
             conn = openConnection(database)
             cur = conn.cursor()
@@ -360,6 +438,50 @@ def createPost():
             
     
         return redirect(url_for('redirectFrontPage'))
+
+@app.route("/createReplyPost/<_postID>", methods = ['GET', 'POST'])
+@login_required
+def createReplyPost(_postID):
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            _textContent = request.form['textContent'] 
+            _imageContent = request.files['imageContent']
+
+            postTags = request.form.getlist('postTags[]')
+            print(_textContent)
+            print(postTags)
+
+            # Create the post in Posts table:
+            sql = """INSERT INTO Posts(postID, post_userID, post_textContent,
+                                        post_imageContent, post_creationDate,
+                                        post_likes, post_dislikes, parent_postID)
+                                    VALUES(?, ?, ?, ?, datetime('now', 'localtime'), ?, ?, ?)"""
+            
+            if _imageContent is None:
+                _imageData = None
+            else: 
+                _imageData = base64.b64encode(_imageContent.read()).decode('utf-8')
+
+            _userID = current_user.id
+
+            maxPostID = db.session.query(func.max(Posts.postId)).first()
+
+            _postRowID = maxPostID[0] + 1
+
+
+            args = [_postRowID, _userID, _textContent, _imageData, 0, 0, _postID]
+
+            #Connect to DB and execute Sql -> Inputs new User to UserTable based on new account Creation
+            conn = openConnection(database)
+            conn.execute(sql, args)
+            conn.commit()
+
+            return redirect(url_for('redirectPostReplies',_postID=_postID))
+        else:
+            return redirect(url_for('redirectLoginPage'))
+
+
+                
 
 @app.route("/likePost/<_postID>", methods=['POST'])
 @login_required
@@ -538,6 +660,297 @@ def checkIfLiked(_postID):
         print("FROM CHECK IF LIKED (return likes): " + str(likedPost.post_likes))    
 
         return str(likedPost.post_likes)
+
+@app.route("/viewAccountInfo", methods=['GET'])
+@login_required
+def viewAccountInfo():
+
+    _accountInfoQuery = Users.query.filter_by(user_id = current_user.id).one()
+
+    _accountInfo = [_accountInfoQuery.user_id, _accountInfoQuery.username, _accountInfoQuery.bio, _accountInfoQuery.profile_picture, _accountInfoQuery.creation_date, _accountInfoQuery.views]
+
+    return render_template("accountInfo/accountInfo.html", accountInfo = _accountInfo)
+
+@app.route("/redirectEditUsername", methods=['GET'])
+@login_required
+def redirectEditUsername():
+    return render_template("accountInfo/editUsername.html")
+
+@app.route("/editUsername", methods=['POST'])
+@login_required
+def editUsername():
+
+    if request.method == 'POST':
+        _newUsername = request.form['newUsername'] 
+
+        _currentUser = Users.query.filter_by(user_id = current_user.id).one()
+
+        _currentUser.username = _newUsername
+
+        db.session.commit()
+
+    return redirect(url_for('viewAccountInfo'))
+
+@app.route("/redirectEditBio", methods=['GET'])
+@login_required
+def redirectEditBio():
+    return render_template("accountInfo/editBio.html")
+
+@app.route("/editBio", methods=['POST'])
+@login_required
+def editBio():
+
+    if request.method == 'POST':
+        _newBio = request.form['newBio'] 
+
+        _currentUser = Users.query.filter_by(user_id = current_user.id).one()
+
+        _currentUser.bio = _newBio
+
+        db.session.commit()
+
+        return redirect(url_for('viewAccountInfo'))
+
+@app.route("/redirectEditPFP", methods=['GET'])
+@login_required
+def redirectEditPFP():
+    return render_template("accountInfo/editPFP.html")
+
+@app.route("/editPFP", methods=['POST'])
+@login_required
+def editPFP():
+
+    if request.method == 'POST':
+        _newPFP = request.files['newPfp'] 
+
+        sql = """UPDATE Users
+                    SET profile_picture = ?
+                        WHERE user_id = ?"""
+
+        conn = openConnection(database)
+        args = [base64.b64encode(_newPFP.read()).decode('utf-8'), current_user.id]
+        conn.execute(sql, args)
+        conn.commit()
+
+        # Update the profile_picture field in the Users table with binary data
+
+
+        return redirect(url_for('viewAccountInfo'))
+    
+@app.route("/viewLikedPosts", methods=['GET'])
+@login_required
+def viewLikedPosts():
+
+    sql = """SELECT postID, username, post_textContent,
+                 post_imageContent, post_creationDate,
+                   post_likes, post_dislikes, parent_postID, profile_picture
+                    FROM Posts,
+                    (
+                        SELECT l_postID 
+                        FROM likes
+                        WHERE l_userID = ?
+                    ), Users
+                    WHERE postID = l_postID AND
+                            post_userID ==  user_id"""
+    
+        # sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+        #     FROM Posts, Users WHERE post_userID = user_id"""
+
+    conn = openConnection(database)
+    cur = conn.cursor()
+    args = (current_user.id, )
+    cur.execute(sql, args)
+
+    _postData = cur.fetchall()
+
+    return render_template("accountInfo/viewLikedPosts.html", postData = _postData)
+
+@app.route("/viewDislikedPosts", methods=['GET'])
+@login_required
+def viewDislikedPosts():
+
+    sql = """SELECT postID, username, post_textContent,
+                 post_imageContent, post_creationDate,
+                   post_likes, post_dislikes, parent_postID, profile_picture
+                    FROM Posts,
+                    (
+                        SELECT d_postID 
+                        FROM dislikes
+                        WHERE d_userID = ?
+                    ), Users
+                    WHERE postID = d_postID AND
+                            post_userID ==  user_id"""
+    
+        # sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+        #     FROM Posts, Users WHERE post_userID = user_id"""
+
+    conn = openConnection(database)
+    cur = conn.cursor()
+    args = (current_user.id, )
+    cur.execute(sql, args)
+
+    _postData = cur.fetchall()
+
+    return render_template("accountInfo/viewDislikedPosts.html", postData = _postData)
+
+@app.route("/redirectPostReplies/<_postID>", methods=['GET'])
+def redirectPostReplies(_postID):
+    headPostQuery = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+            FROM Posts, Users 
+            WHERE post_userID = user_id AND 
+                    postID = ?"""
+    
+    replyPostsQuery = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+                        FROM Posts, Users
+                        WHERE post_userID = user_id AND 
+                                parent_postID = ?"""
+    
+
+    
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    args = (_postID, )
+
+    cur.execute(headPostQuery, args)
+    _headPost = cur.fetchall()
+
+    cur.execute(replyPostsQuery, args)
+    _replyPosts = cur.fetchall()
+
+    print(replyPostsQuery)
+
+    return render_template("postReplies.html", headPost = _headPost, replyPosts = _replyPosts)
+
+@app.route("/viewMyPosts", methods=['GET'])
+@login_required
+def viewMyPosts():
+    sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+            FROM Posts, Users 
+            WHERE post_userID = user_id AND
+                    post_userID = ? AND 
+                    parent_postID IS NULL """
+    
+    conn = openConnection(database)
+    cur = conn.cursor()
+    args = (current_user.id, )
+    cur.execute(sql, args)
+
+    _postData = cur.fetchall()
+
+    return render_template("accountInfo/viewMyPosts.html", postData = _postData)
+
+@app.route("/viewMyReplies", methods=['GET'])
+@login_required
+def viewMyReplies():
+    sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture, parent_postID
+            FROM Posts, Users 
+            WHERE post_userID = user_id AND
+                    post_userID = ? AND 
+                    parent_postID IS NOT NULL """
+    
+    conn = openConnection(database)
+    cur = conn.cursor()
+    args = (current_user.id, )
+    cur.execute(sql, args)
+
+    _postData = cur.fetchall()
+
+    return render_template("accountInfo/viewMyReplies.html", postData = _postData)
+
+@app.route("/addBookmark/<_postID>/<_pageFrom>", methods=['GET', 'POST'])
+@login_required
+def addBookmark(_postID, _pageFrom):
+        print(_postID, current_user.id)
+        alreadyBookmarked = Bookmarks.query.filter_by(b_postID = _postID, b_userID = current_user.id).first()
+
+        if alreadyBookmarked:
+            db.session.delete(alreadyBookmarked)
+                            #Commit changes to db
+            db.session.commit()
+            flash('Post has been removed from bookmarks')
+        else:
+            newBookmark = Bookmarks(b_postID = _postID, b_userID = current_user.id)
+        
+                        #Add new object to db
+            db.session.add(newBookmark)
+                            #Commit changes to db
+            db.session.commit()
+
+            flash('Post has been bookmarked')
+
+
+
+        if _pageFrom == "frontPage":
+            return redirect(url_for('redirectFrontPage'))
+        elif _pageFrom == "bookmarks":
+            return redirect(url_for('viewMyBookmarks'))
+
+        
+
+@app.route("/viewMyBookmarks", methods=['GET'])
+@login_required
+def viewMyBookmarks():
+    sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture, parent_postID
+            FROM Posts, Users,
+            (
+                SELECT b_postID
+                FROM Bookmarks 
+                WHERE b_userID = ?
+            ) 
+            WHERE post_userID = user_id AND
+                    postID = b_postID"""
+    
+    bookMarkQuery = """ SELECT * 
+                        FROM Bookmarks
+                            WHERE  b_userID = ?"""
+    
+    conn = openConnection(database)
+    cur = conn.cursor()
+    args = (current_user.id, )
+    cur.execute(sql, args)
+    _postData = cur.fetchall()
+
+    cur.execute(bookMarkQuery, (current_user.id, ))
+    _currentUsersBookmarkedPosts = cur.fetchall()
+
+    return render_template("accountInfo/viewMyBookmarks.html", postData=_postData, currentUsersBookmarkedPosts=_currentUsersBookmarkedPosts)
+
+@app.route("/redirectChangePassword", methods=['GET'])
+@login_required
+def redirectEditPassword():
+    return render_template("accountInfo/editPassword.html")
+
+@app.route("/changePassword", methods=['POST'])
+@login_required
+def changePassword():
+    if request.method == 'POST':
+        _oldPassword = request.form['oldPassword'] 
+        _newPassword = request.form['newPassword'] 
+
+        _currentUser = Users.query.filter_by(user_id = current_user.id).one()
+
+        user = Logins.query.filter_by(id=current_user.id).first()
+
+        if not user.check_password(_oldPassword):
+            return render_template("accountInfo/editPassword.html", error = "Incorrect Password")
+        
+        else:
+            user.password = bcrypt.generate_password_hash(_newPassword).decode('utf-8')
+            db.session.commit()
+            return redirect(url_for('viewAccountInfo'))
+        
+@app.route("/deletePost/<_postID>", methods=['POST'])
+@login_required
+def deletePost(_postID):
+    #Check that post belongs to the current user 
+        #if it does, delete it and commit db, renew post data, render myPost template
+
+        #if NOT: return error message.3.
+    return
+
+
+
 
 if __name__ == '__main__':
  app.run()

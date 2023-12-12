@@ -41,12 +41,65 @@
 -- FROM Posts, Users 
 -- WHERE post_userID = user_id;
 
--- SELECT * 
--- FROM Likes 
--- WHERE l_userID = 3 AND
---         l_postID = 1;
+-- SELECT MAX(rowID) 
+-- FROM PostTags;
 
-SELECT * 
-FROM Dislikes
-WHERE d_userID = ? AND 
-        l_postID = ?;
+-- SELECT l_postID 
+-- FROM likes
+-- WHERE l_userID = 0;
+
+-- SELECT postID, post_userID, post_textContent, post_creationDate, post_likes, post_dislikes, parent_postID
+-- FROM Posts, 
+-- (
+--     SELECT l_postID 
+--     FROM likes
+--     WHERE l_userID = 0
+-- )
+-- WHERE postID = l_postID;
+
+-- SELECT postID, username,  post_textContent, post_creationDate, likeCnt, post_dislikes
+--             FROM Posts, Users,
+--             (
+--                 SELECT l_postID, COUNT(*) as likeCnt
+--                 FROM Likes
+--                 GROUP BY l_postID
+--             ) 
+--             WHERE post_userID = user_id AND 
+--                     postID = l_postID;
+
+-- SELECT l_postID, COUNT(*) as likeCnt
+-- FROM Likes
+-- GROUP BY l_postID;
+
+-- SELECT postID
+-- FROM PostTags 
+-- WHERE tagID = 1;
+
+-- SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+--             FROM Posts, Users, 
+--             (
+--                 SELECT postID as p_ID
+--                 FROM PostTags 
+--                 WHERE tagID = 1
+--             )
+--             WHERE postID = p_ID AND 
+--                     post_userID = user_id; 
+
+-- SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
+--             FROM Posts, Users
+--             WHERE post_userID = user_id AND 
+--                     parent_postID = 1;
+    
+SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture, parent_postID
+            FROM Posts, Users,
+            (
+                SELECT b_postID
+                FROM Bookmarks 
+                WHERE b_userID = 0
+            ) 
+            WHERE post_userID = user_id AND
+                    postID = b_postID;
+
+SELECT b_postID
+FROM Bookmarks 
+WHERE b_userID = 0;

@@ -1,20 +1,26 @@
 <!-- This html can be anything, it just needs to include this form in some way -->
 <!DOCTYPE html>
 <html>
+	<head>
+        <title>Cuddle Pile - New User</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/loginOrCreate.css') }}">
+    </head>
     <body>
-		<h1> Create New Account </h1>
-		<form action = "http://localhost:5000/createAccount" method = "POST">
-			<p>Enter Email:</p>
-			<input type="text" 
-			name="newEmail" 
+		<h1> New User </h1>
+		<form action = "http://127.0.0.1:5000/createAccount" method = "POST">
+			<p>Enter Email</p>
+			<input type="email" 
+			name="newEmail"
+				   placeholder="Email"
 			pattern="^[a-zA-Z0-9\s\S]*$" 
 			title="Must Only Contain A-z, 0-9">
-			<p>Enter Password:</p>
-			<input type="text"  
+			<p>Enter Password</p>
+			<input type="password"
+				   placeholder="Password"
 					name="newPassword" 
 					pattern="^[a-zA-Z0-9@!?$.]*$" 
 					title='Must only contain Alphanumeric Characters'>
-			<p><input type = "submit" value = "Create Account" /></p>
+			<p><input type = "submit" value = "Create Account" class="loginBtn" style="width: 200px;"/></p>
 		</form>
 
 		<script>

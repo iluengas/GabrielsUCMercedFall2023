@@ -1,0 +1,24 @@
+<!-- This html can be anything, it just needs to include this form in some way -->
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Cuddle Pile - Edit Bio</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/loginOrCreate.css') }}">
+    </head>
+    <body>
+
+		<nav>
+			<a href="/viewAccountInfo"> Account Info </a>
+			<a href="logout" id="logout"> Logout </a>
+		</nav>
+		<br><br>
+        <form action = "http://localhost:5000/editBio" method = "POST">
+			<p style="font-style:normal;">Enter New Bio </p>
+			<textarea type="text"
+				   placeholder="Enter Account Bio.."
+					name="newBio"
+					  title='Must only contain Alphanumeric Characters' required></textarea>
+			<p><input type = "submit" value = "Edit Bio" class="loginBtn"/></p>
+		</form>
+    </body>
+</html>
