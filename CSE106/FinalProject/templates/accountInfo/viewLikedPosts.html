@@ -33,8 +33,11 @@
             <div class="postBox">
 <!--                style="border-color: #156064;"-->
 
-                <a href="/addBookmark/{{ row[0] }}"><button><img src="/static/bookmark.png" alt="Bookmark Post" class="bookmark"></button></a>
-
+            {% if currentUsersBookmarkedPosts and row[0] in currentUsersBookmarkedPosts|map(attribute=1) %}
+            <a href="/addBookmark/{{ row[0] }}/frontPage"><button><img src="/static/bookmarked.png" alt="Bookmark Post" class="bookmark"></button></a>
+            {% else %}
+            <a href="/addBookmark/{{ row[0] }}/frontPage"><button><img src="/static/bookmark.png" alt="Bookmark Post" class="bookmark"></button></a>
+            {% endif %}
                 <div class="postContent">
                     <div class="left">
                         <ul>

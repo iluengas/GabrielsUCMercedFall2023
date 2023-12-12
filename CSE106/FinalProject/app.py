@@ -681,15 +681,15 @@ def redirectEditUsername():
 def editUsername():
 
     if request.method == 'POST':
-        _newUsername = request.form['newUsername'] 
+        _newUsername = request.form['newUsername']
 
-        _currentUser = Users.query.filter_by(user_id = current_user.id).one()
+        # Update the username in the database
+        user = Users.query.filter_by(user_id=current_user.id).first()
+        if user:
+            user.username = _newUsername
+            db.session.commit()
 
-        _currentUser.username = _newUsername
-
-        db.session.commit()
-
-    return redirect(url_for('viewAccountInfo'))
+        return redirect(url_for('viewAccountInfo'))
 
 @app.route("/redirectEditBio", methods=['GET'])
 @login_required
@@ -728,8 +728,9 @@ def editPFP():
                         WHERE user_id = ?"""
 
         conn = openConnection(database)
+        cur = conn.cursor()
         args = [base64.b64encode(_newPFP.read()).decode('utf-8'), current_user.id]
-        conn.execute(sql, args)
+        cur.execute(sql, args)
         conn.commit()
 
         # Update the profile_picture field in the Users table with binary data
@@ -753,17 +754,23 @@ def viewLikedPosts():
                     WHERE postID = l_postID AND
                             post_userID ==  user_id"""
     
+    bookMarkQuery = """ SELECT * 
+                        FROM Bookmarks
+                            WHERE  b_userID = ?"""
+    
         # sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
         #     FROM Posts, Users WHERE post_userID = user_id"""
 
     conn = openConnection(database)
     cur = conn.cursor()
+
     args = (current_user.id, )
     cur.execute(sql, args)
-
     _postData = cur.fetchall()
 
-    return render_template("accountInfo/viewLikedPosts.html", postData = _postData)
+    cur.execute(bookMarkQuery, (current_user.id, ))
+    _currentUsersBookmarkedPosts = cur.fetchall()
+    return render_template("accountInfo/viewLikedPosts.html", postData = _postData, currentUsersBookmarkedPosts=_currentUsersBookmarkedPosts)
 
 @app.route("/viewDislikedPosts", methods=['GET'])
 @login_required
@@ -780,18 +787,25 @@ def viewDislikedPosts():
                     ), Users
                     WHERE postID = d_postID AND
                             post_userID ==  user_id"""
+
+    bookMarkQuery = """ SELECT * 
+                        FROM Bookmarks
+                            WHERE  b_userID = ?"""
     
         # sql = """SELECT postID, username,  post_textContent, post_imageContent, post_creationDate, post_likes, post_dislikes, profile_picture
         #     FROM Posts, Users WHERE post_userID = user_id"""
 
     conn = openConnection(database)
     cur = conn.cursor()
+
     args = (current_user.id, )
     cur.execute(sql, args)
-
     _postData = cur.fetchall()
 
-    return render_template("accountInfo/viewDislikedPosts.html", postData = _postData)
+    cur.execute(bookMarkQuery, (current_user.id, ))
+    _currentUsersBookmarkedPosts = cur.fetchall()
+
+    return render_template("accountInfo/viewDislikedPosts.html", postData = _postData, currentUsersBookmarkedPosts=_currentUsersBookmarkedPosts)
 
 @app.route("/redirectPostReplies/<_postID>", methods=['GET'])
 def redirectPostReplies(_postID):
@@ -940,14 +954,50 @@ def changePassword():
             db.session.commit()
             return redirect(url_for('viewAccountInfo'))
         
-@app.route("/deletePost/<_postID>", methods=['POST'])
+@app.route("/deletePost/<_postID>", methods=['GET'])
 @login_required
 def deletePost(_postID):
     #Check that post belongs to the current user 
         #if it does, delete it and commit db, renew post data, render myPost template
 
         #if NOT: return error message.3.
-    return
+        sql = """DELETE FROM Posts WHERE postId = ?"""
+        
+        postData = Posts.query.filter_by(postId = _postID).one()
+
+        if postData.post_userID == current_user.id:
+            # db.session.delete(postData)
+            # db.session.commit()
+            conn = openConnection(database)
+            cur = conn.cursor()
+            cur.execute(sql, (_postID))
+            conn.commit()
+            return redirect(url_for('viewMyPosts'))
+        else:
+            return "That wasnt your post to delete"
+        
+@app.route("/deleteReply/<_postID>", methods=['GET'])
+@login_required
+def deleteReply(_postID):
+    #Check that post belongs to the current user 
+        #if it does, delete it and commit db, renew post data, render myPost template
+
+        #if NOT: return error message.3.
+        sql = """DELETE FROM Posts WHERE postId = ?"""
+        
+        postData = Posts.query.filter_by(postId = _postID).one()
+
+        if postData.post_userID == current_user.id:
+            # db.session.delete(postData)
+            # db.session.commit()
+            conn = openConnection(database)
+            cur = conn.cursor()
+            cur.execute(sql, (_postID))
+            conn.commit()
+            return redirect(url_for('viewMyReplies'))
+        else:
+            return "That wasnt your post to delete"
+    
 
 
 

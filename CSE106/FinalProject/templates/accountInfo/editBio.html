@@ -12,7 +12,7 @@
 			<a href="logout" id="logout"> Logout </a>
 		</nav>
 		<br><br>
-        <form action = "http://localhost:5000/editBio" method = "POST">
+        <form action = "{{ url_for('editBio') }}" method = "POST">
 			<p style="font-style:normal;">Enter New Bio </p>
 			<textarea type="text"
 				   placeholder="Enter Account Bio.."
